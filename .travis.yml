@@ -8,6 +8,7 @@ before_install:
 before_script:
 - git config --global user.name 'Graham Cox via Travis CI'
 - git config --global user.email 'graham@grahamcox.co.uk'
+- git config remote.origin.pushurl "https://github.com/${GH_TOKEN}/blog.git"
 install:
 - hexo generate
 after_success:
