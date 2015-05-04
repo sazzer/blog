@@ -15,4 +15,4 @@ script:
 - hexo deploy --silent
 env:
   global:
-    secure: buRjParlujL2Guxgz4c66n9EY9zQeIuK/GUpgrBE14X4LV5ux6lqRjVzbLIKKyvFYdS2ADfQG10VwAubbjtTaW1g4v5Dm+WThNVnCilEmHA5bYE0zaix4cPsRjuc5jRU3nDWMW4GEGKjywDj7n4bahWRm1TJDDLSunOa+I57i/k=
+    secure: X7+8XAko5oQgDTuPbLEQVlb0qwXjLkz1Pgia6eGL4Q/0kZ89hGzGtOrKAhmtZRpcmg+PBxrLo5bdziAP/rvFslIabHHYBYv8ES8VrA81B/Q+t1VFbQEfhZdSq/L0wVsyBe2p6OOu2bNOLjPMG//aaynLxXstEEVSHh/lSuzsE4A=
