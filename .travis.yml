@@ -12,7 +12,7 @@ before_script:
 install:
 - hexo generate
 script:
-- hexo deploy
+- hexo deploy --silent
 env:
   global:
     secure: buRjParlujL2Guxgz4c66n9EY9zQeIuK/GUpgrBE14X4LV5ux6lqRjVzbLIKKyvFYdS2ADfQG10VwAubbjtTaW1g4v5Dm+WThNVnCilEmHA5bYE0zaix4cPsRjuc5jRU3nDWMW4GEGKjywDj7n4bahWRm1TJDDLSunOa+I57i/k=
