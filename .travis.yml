@@ -6,10 +6,9 @@ before_install:
 - npm install -g hexo
 - npm install
 before_script:
-- git config --global user.name 'Graham Cox'
+- git config --global user.name 'Graham Cox via Travis CI'
 - git config --global user.email 'graham@grahamcox.co.uk'
-- git config remote.origin.url "https://github.com/${GH_TOKEN}/blog.git"
-- cat .git/config
+- git config remote.origin.url "https://${GH_TOKEN}:x-oauth-basic@github.com/sazzer/blog.git"
 install:
 - hexo generate
 script:
