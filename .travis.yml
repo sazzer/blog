@@ -6,7 +6,7 @@ before_install:
 - npm install -g hexo
 - npm install
 before_script:
-- git config --global user.name 'Graham Cox via Travis CI'
+- git config --global user.name 'Graham Cox'
 - git config --global user.email 'graham@grahamcox.co.uk'
 install:
 - hexo generate
