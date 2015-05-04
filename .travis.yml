@@ -9,6 +9,7 @@ before_script:
 - git config --global user.name 'Graham Cox'
 - git config --global user.email 'graham@grahamcox.co.uk'
 - git config remote.origin.url "https://github.com/${GH_TOKEN}/blog.git"
+- cat .git/config
 install:
 - hexo generate
 script:
