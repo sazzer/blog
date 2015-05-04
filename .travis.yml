@@ -1,14 +1,17 @@
 language: node_js
 branches:
-    only:
-        - master
+  only:
+  - master
 before_install:
-    - npm install -g hexo
-    - npm install
+- npm install -g hexo
+- npm install
 before_script:
-    - git config --global user.name 'Graham Cox via Travis CI'
-    - git config --global user.email 'graham@grahamcox.co.uk'
+- git config --global user.name 'Graham Cox via Travis CI'
+- git config --global user.email 'graham@grahamcox.co.uk'
 install:
-    - hexo generate
+- hexo generate
 after_success:
-    - hexo deploy
+- hexo deploy
+env:
+  global:
+    secure: buRjParlujL2Guxgz4c66n9EY9zQeIuK/GUpgrBE14X4LV5ux6lqRjVzbLIKKyvFYdS2ADfQG10VwAubbjtTaW1g4v5Dm+WThNVnCilEmHA5bYE0zaix4cPsRjuc5jRU3nDWMW4GEGKjywDj7n4bahWRm1TJDDLSunOa+I57i/k=
