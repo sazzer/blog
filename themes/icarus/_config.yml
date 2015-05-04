@@ -1,0 +1,37 @@
+# Header
+menu:
+  Home: /blog/
+  Archives: /blog/archives
+
+# Content
+excerpt_link: Read More
+fancybox: true
+
+# Sidebar
+sidebar: right
+widgets:
+- recent_posts
+- category
+- tag
+- tagcloud
+- archive
+thumbnail: false
+
+# Contacts
+contacts:
+  github: http://github.com/sazzer
+  twitter: 'https://twitter.com/grahamcox82'
+  rss: /blog/atom.xml
+
+# Links
+links:
+  Hexo: http://hexo.io
+
+# Miscellaneous
+google_analytics:
+favicon: /blog/favicon.png
+twitter: 'https://twitter.com/grahamcox82'
+google_plus:
+fb_admins:
+fb_app_id:
+
