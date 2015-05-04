@@ -1,0 +1,80 @@
+.archives-wrap
+  margin: block-margin 0
+
+.archives
+  clearfix()
+  .article:first-child
+    margin: 20px 0
+
+.archive-year-wrap
+  @extend $block
+  padding: 10px 20px
+  margin: block-margin 0 -20px 0
+  @media mq-mini
+    margin: (block-margin/2) 0 -20px 0
+  .fa
+    margin-right: 3px
+  .archive-year
+    color: color-default
+    &:hover
+      color: color-link
+  
+.archive-year
+  @extend $block-caption
+
+.archive-article
+  avoid-column-break()
+
+.archive-article-inner
+  @extend $block
+  padding: 10px
+  margin-bottom: 15px
+
+.archive-article-title
+  text-decoration: none
+  font-weight: bold
+  color: color-default
+  transition: color 0.2s
+  line-height: line-height
+  &:hover
+    color: color-link
+
+.archive-article-footer
+  margin-top: 1em
+
+.archive-article-date
+  color: color-grey
+  text-decoration: none
+  font-size: 0.85em
+  line-height: 1em
+  margin-bottom: 0.5em
+  display: block
+
+#page-nav
+  clearfix()
+  margin: block-margin auto
+  text-align: center
+  color: color-grey
+  overflow: hidden
+  a, span
+    height: 32px
+    padding: 0 10px
+    line-height: 32px
+    text-align: center
+    display: inline-block
+    border-radius: 2px
+  a
+    color: color-grey
+    text-decoration: none
+    &:hover
+      color: white
+      background: color-link
+  .page-number
+    display: inline-block
+    @media mq-mini
+      display: none
+  .current
+    color: color-default
+    font-weight: bold
+  .space
+    color: color-border
