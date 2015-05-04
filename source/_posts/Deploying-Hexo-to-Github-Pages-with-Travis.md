@@ -1,15 +1,16 @@
 title: "Deploying Hexo to Github Pages with Travis"
+date: 2015-05-04 20:32:38
 tags:
-  - hexo
-  - github
-  - travisci
+category: blog
 ---
+
 I've just recently been working on getting my Hexo blog set up, and importantly on getting it automatically deploy to Github Pages every time I do a commit. Given that this is a generated site, there are intermediate steps involved between the source that is committed and the site that is deployed. 
 
 The obvious way to achieve the actual Build part of this is to use the fantastic [Travis CI](https://travis-ci.org/), which can be set up to perform a build every time you do a commit to a Github Repository. The challenge involved in this is getting Travis to be able to push the deployed site back to Github for it to be accessed. However, it turns out that Github have a solution that can work for this as well.
 
 From this point on, I'm going to assume that you've already got Hexo configured as you want it, and you know how to configure Travis to build a Github repository correctly.
 
+<!-- more -->
 ### Configure Travis to build Hexo
 The first thing that I did was to configure Travis to build the Hexo site, but not deploy it. This is simply a case of enabling the Travis hooks for this repository, and adding a .travis.yml file as follows:
 ```yaml
@@ -75,10 +76,33 @@ env:
 ```
 
 That long string is the encrypted environment settings that we want to use. When the Travis build executes then an environment variable called "GH\_TOKEN" will exist with the Github token in it.
-Steps: 
-1. Set up Hexo
-2. Set up Travis to build Hexo
-3. Set up Hexo to deploy to Github
-4. Configure a Github Token
-5. Configure Travis to rewrite the config using this token
-6. Configure Travis to deploy
+
+The next trick here is to dynamically re-write the Hexo configuration file to use the Token based URL instead of the SSH based one. This is done simply using sed, because why not. All I did here was to add the following to the .travis.yml file
+
+```yaml
+before_script:
+- git config --global user.name 'Graham Cox via Travis CI'
+- git config --global user.email 'graham@grahamcox.co.uk'
+- sed -i'' "s~git@github.com:sazzer/blog.git~https://${GH_TOKEN}:x-oauth-basic@github.com/sazzer/blog.git~" _config.yml
+```
+
+The trick here is that we take the repository string that is in the \_config.yml file that represents the SSH repository URL, and replace it with the HTTP Token based version. We also set up a global username and email so that the commit has a suitable author.
+
+### Actually deploy from Travis
+The only thing left to do is to get Travis to actually deploy the generated site to Github. This is a simple case of adding the following to the .travis.yml file
+```yaml
+script:
+- hexo deploy --silent
+```
+
+The "--silent" is important here, because otherwise the Travis logs will include the full Push URL, which itself includes the Github Token that we must keep secret. 
+
+I've seen other writeups that use "after\_script" instead, but if you use that then the deploy failing doesn't cause the Travis build to break, so I've used "script" instead.
+
+And that's it. After all of the above, I can write a new post, do a push to Github and a few minutes later it's live.
+
+You can see the actual configuration that I've used in the following files:
+
+* [.travis.yml](https://github.com/sazzer/blog/blob/master/.travis.yml)
+* [\_config.yml](https://github.com/sazzer/blog/blob/master/_config.yml)
+* [package.json](https://github.com/sazzer/blog/blob/master/package.json)
