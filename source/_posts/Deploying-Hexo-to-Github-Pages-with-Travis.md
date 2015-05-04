@@ -1,6 +1,9 @@
 title: "Deploying Hexo to Github Pages with Travis"
 date: 2015-05-04 20:32:38
 tags:
+    - hexo
+    - github
+    - travisci
 category: blog
 ---
 
