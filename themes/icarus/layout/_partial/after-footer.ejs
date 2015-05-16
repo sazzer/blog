@@ -18,13 +18,13 @@
     ds.type = 'text/javascript';ds.async = true;
     ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
     ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
+    (document.getElementsByTagName('head')[0]
      || document.getElementsByTagName('body')[0]).appendChild(ds);
   })();
 </script>
 <% } %>
 
-<script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
 
 <% if (theme.fancybox){ %>
   <%- css('fancybox/jquery.fancybox') %>
