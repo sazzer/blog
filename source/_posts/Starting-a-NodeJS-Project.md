@@ -4,7 +4,7 @@ tags:
 - nodejs
 - javascript
 - grunt
-category: programming
+category: buildsystems
 ---
 Whenever I start a new project using NodeJS, there are several things that I always do first. I thought that I'd finally get around to writing up what these things are, so that I can reference it myself, and in case anyone else might be interested. This covers part one of this writeup, setting up a base Node project, and adding Grunt in to it so that we can use Grunt as a task runner for more complicated builds. Next post will cover setting up the build so that we can write our code in ES6 instead, and later we will look at setting up some static analysis to keep code quality highter.
 

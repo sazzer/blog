@@ -5,7 +5,7 @@ tags:
 - javascript
 - grunt
 - es6
-category: programming
+category: buildsystems
 ---
 In the previous post, I set up a new NPM project to work with, and added in Grunt as a task runner so that we can do complex tasks if we want to. Next is setting it up to build ES6 code into ES5 via Babel, so that we get to use the newer features - Classes, Arrow Functions, Destructuring, Let/Const, and so on - whilst running on a runtime that doesn't yet support them - because no runtime yet supports ES6 fully.
 
