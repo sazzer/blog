@@ -1,7 +1,7 @@
 # Header
 menu:
-  Home: /blog/
-  Archives: /blog/archives
+  Home: /
+  Archives: /archives
 
 # Content
 excerpt_link: Read More
@@ -20,7 +20,7 @@ thumbnail: false
 contacts:
   github: http://github.com/sazzer
   twitter: 'https://twitter.com/grahamcox82'
-  rss: /blog/atom.xml
+  rss: /atom.xml
 
 # Links
 links:
@@ -28,10 +28,10 @@ links:
 
 # Miscellaneous
 google_analytics: UA-62627767-1
-favicon: /blog/favicon.png
+favicon: /favicon.png
 twitter: 'https://twitter.com/grahamcox82'
 google_plus:
 fb_admins:
 fb_app_id:
 
-root: /blog/
+root: /
