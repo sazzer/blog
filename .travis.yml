@@ -5,16 +5,15 @@ branches:
   only:
   - master
 before_install:
-- npm install -g hexo
 - npm install
 before_script:
 - git config --global user.name 'Graham Cox via Travis CI'
 - git config --global user.email 'graham@grahamcox.co.uk'
 - sed -i'' "s~git@github.com:sazzer/blog.git~https://${GH_TOKEN}:x-oauth-basic@github.com/sazzer/blog.git~" _config.yml
 install:
-- hexo generate
+- npm run generate
 script:
-- hexo deploy --silent
+- npm run deploy
 env:
   global:
     secure: X7+8XAko5oQgDTuPbLEQVlb0qwXjLkz1Pgia6eGL4Q/0kZ89hGzGtOrKAhmtZRpcmg+PBxrLo5bdziAP/rvFslIabHHYBYv8ES8VrA81B/Q+t1VFbQEfhZdSq/L0wVsyBe2p6OOu2bNOLjPMG//aaynLxXstEEVSHh/lSuzsE4A=
