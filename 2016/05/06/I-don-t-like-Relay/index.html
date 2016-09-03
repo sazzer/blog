@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>I don&#39;t like Relay | The Wrong Language</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I’ve started playing with GraphQL again recently, having been looking into various other specifications for HTTP based APIs, and I’ve come to a conclusion. I really like GraphQL, but I don’t like Rela">
+<meta property="og:type" content="article">
+<meta property="og:title" content="I don't like Relay">
+<meta property="og:url" content="https://sazzer.github.io/blog/2016/05/06/I-don-t-like-Relay/index.html">
+<meta property="og:site_name" content="The Wrong Language">
+<meta property="og:description" content="I’ve started playing with GraphQL again recently, having been looking into various other specifications for HTTP based APIs, and I’ve come to a conclusion. I really like GraphQL, but I don’t like Rela">
+<meta property="og:updated_time" content="2016-09-03T13:23:59.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="I don't like Relay">
+<meta name="twitter:description" content="I’ve started playing with GraphQL again recently, having been looking into various other specifications for HTTP based APIs, and I’ve come to a conclusion. I really like GraphQL, but I don’t like Rela">
+<meta name="twitter:creator" content="@https://twitter.com/grahamcox82">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/blog/css/style.css">
+  <link rel="stylesheet" href="/blog/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-62627767-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/blog/" id="logo"><i class="logo"></i><span class="site-title">The Wrong Language</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/blog/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/blog/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/blog/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/blog/avatar.png">
+      <h2 id="name">Graham Cox</h2>
+      <h3 id="title">Software Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Sheffield, England</span>
+      <a id="follow" href="https://twitter.com/grahamcox82">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        18
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        28
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/sazzer" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/grahamcox82" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="/blog/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      <section id="main"><article id="post-I-don-t-like-Relay" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      I don&#39;t like Relay
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/blog/2016/05/06/I-don-t-like-Relay/">
+    <time datetime="2016-05-06T17:48:49.000Z" itemprop="datePublished">2016-05-06</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/blog/categories/programming/">programming</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I’ve started playing with GraphQL again recently, having been looking into various other specifications for HTTP based APIs, and I’ve come to a conclusion. I really like GraphQL, but I don’t like Relay.</p>
+<p>Now, don’t get me wrong, there are bits of Relay that I think are really good ideas. But there are also bits that I just think are either a waste of time, or worse actually make the API harder to use.</p>
+<a id="more"></a>
+<p>I understand that a lot of the ideas behind Relay are well founded, and they are used to make it so that a single Client side library can be used with any form of Server side API that plays by the rules. And that’s fantastic. Except that it’s incredibly unlikely that you’re ever going to be writing any app that’s got any level of complexity and <em>not</em> need some level of API understanding built into your client.</p>
+<p>Let’s start with the bits of Relay that I’m not keen on. It’s not all of it by any means but there are certainly enough to ensure that any GraphQL APIs that I implement will not be properly Relay compliant - Sorry!</p>
+<p>The simplest is the concept of “clientMutationId”. This literally has no point. GraphQL lets you, on the client side, provide an alias for any query or mutation field that you are executing. You can therefore use this functionality to provide a client-side ID for any of your mutations and it will automatically work. There is no need to burden the API itself with knowledge of this, which actually is extended to the fact that any mutations need to copy the incoming value to the return value in order for the client to work - something that is automatically handled by all GraphQL libraries when you use field aliasing.</p>
+<p>Next is forcing the mutations to only ever take a single argument that is an InputObject, inside of which are all of the actual parameters you want for your mutation. I get that this is here to make writing the client easier, because all of a sudden your client layer is only ever passing across one value, but it’s also relatively pointless and only aims to make understanding the API slightly harder. Admittedly, most of the time I’d probably actually follow this pattern, but there are going to be times when I want multiple parameters and I don’t want to be forced to wrap them in another object just to make the clients happy. (One example of this might be a single upsert mutation. I can have an argument representing the data to create or update, and an optional second argument representing the ID of the record to update - left out if I’m doing a create). There is also the fact here that, unless I’m mistaken, arguments can have default values whereas fields can’t. I can imagine that the requirement to only have one argument means that you need to work out the default values manually in your handler code, instead of having the GraphQL schema do it for you.</p>
+<p>Finally, the thing that I like the least about Relay. The “node” query field. This really does nothing more than add complication to the API. And quite a lot of it at that. The idea behind this query field is that you can resolve any arbitrary resource across the entire API by a single call to this. What you need to implement to support this is:</p>
+<ul>
+<li>An ID generation mechanism that encapsulates the ID and Type of a resource</li>
+<li>An Interface that every single resource needs to implement</li>
+<li>Some mechanism of actually resolving any arbitrary resource at the top level - which goes against the “Graph” part of “GraphQL”</li>
+</ul>
+<p>And the benefits of this are that you can load the resource knowing only the ID. Except that you also need to know what type of resource you are loading, because you need to specify a fragment specifier for the fields that you want back. So actually, the only thing we gain from this complexity on the server is additional complexity on the client. Essentially it means that a query looks like:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  findUser: node(id: 'dXNlcjo0Cg==') &#123;</div><div class="line">    ... on User &#123;</div><div class="line">      name</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>instead of looking like:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  findUserById(id: 4) &#123;</div><div class="line">    name</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>So, what <em>do</em> I like from the Relay spec? Pretty much the only things that are left - namely the Cursor Connections topic. The idea behind the Edges and Connections is quite nice I feel, separating out the resultset from the actual results in it. The way that Cursors work, and are used for pagination is also quite nice if you plan on doing Cursor based pagination - but the fact that Relay pretty much enforces Cursor based pagination is less nice. (Cursor based pagination is great if you are only ever going to be scrolling through. It’s useless if you want to be able to jump to arbitrary records/pages since it gives no easy facility to do this). The standardised PageInfo object works well as well, meaning that there is a common knowledge about how you can manage expectations here.</p>
+<p>And so, based on all of that, next time I’m going to be putting forward a proposal for a GraphQL based API that I feel works much better from both client and server points of view.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sazzer.github.io/blog/blog/2016/05/06/I-don-t-like-Relay/" data-id="cisn813vu000a6lg54dqqfbdc" class="article-share-link">Share</a>
+      
+        <a href="https://sazzer.github.io/blog/blog/2016/05/06/I-don-t-like-Relay/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/api/">api</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/graphql/">graphql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/relay/">relay</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/2016/05/07/Designing-a-GraphQL-API/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Designing a GraphQL API
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/2016/01/24/What-is-Relay/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">What is Relay?</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/09/03/OpenID-Connect-Response-Types/" class="title">OpenID Connect Response Types</a></p>
+              <p class="item-date"><time datetime="2016-09-03T12:40:28.000Z" itemprop="datePublished">2016-09-03</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/29/TDD-with-Static-Typed-Languages/" class="title">TDD with Static Typed Languages</a></p>
+              <p class="item-date"><time datetime="2016-05-29T14:12:50.000Z" itemprop="datePublished">2016-05-29</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/08/I-disagree-with-HATEOAS/" class="title">I disagree with HATEOAS</a></p>
+              <p class="item-date"><time datetime="2016-05-08T10:22:01.000Z" itemprop="datePublished">2016-05-08</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/07/Designing-a-GraphQL-API/" class="title">Designing a GraphQL API</a></p>
+              <p class="item-date"><time datetime="2016-05-07T09:09:59.000Z" itemprop="datePublished">2016-05-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/06/I-don-t-like-Relay/" class="title">I don&#39;t like Relay</a></p>
+              <p class="item-date"><time datetime="2016-05-06T17:48:49.000Z" itemprop="datePublished">2016-05-06</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/blog/">blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/buildsystems/">buildsystems</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/programming/">programming</a><span class="category-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/HATEOAS/" style="font-size: 10px;">HATEOAS</a> <a href="/blog/tags/REST/" style="font-size: 10px;">REST</a> <a href="/blog/tags/TDD/" style="font-size: 10px;">TDD</a> <a href="/blog/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/blog/tags/api/" style="font-size: 20px;">api</a> <a href="/blog/tags/cors/" style="font-size: 10px;">cors</a> <a href="/blog/tags/es5/" style="font-size: 10px;">es5</a> <a href="/blog/tags/es6/" style="font-size: 15px;">es6</a> <a href="/blog/tags/github/" style="font-size: 10px;">github</a> <a href="/blog/tags/graphql/" style="font-size: 17.5px;">graphql</a> <a href="/blog/tags/grunt/" style="font-size: 15px;">grunt</a> <a href="/blog/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/blog/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/blog/tags/mocha/" style="font-size: 10px;">mocha</a> <a href="/blog/tags/mockery/" style="font-size: 10px;">mockery</a> <a href="/blog/tags/mocks/" style="font-size: 10px;">mocks</a> <a href="/blog/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/blog/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/blog/tags/oauth2/" style="font-size: 10px;">oauth2</a> <a href="/blog/tags/oidc/" style="font-size: 10px;">oidc</a> <a href="/blog/tags/openid/" style="font-size: 10px;">openid</a> <a href="/blog/tags/openid-connect/" style="font-size: 10px;">openid connect</a> <a href="/blog/tags/rant/" style="font-size: 10px;">rant</a> <a href="/blog/tags/relay/" style="font-size: 15px;">relay</a> <a href="/blog/tags/s3/" style="font-size: 10px;">s3</a> <a href="/blog/tags/testing/" style="font-size: 15px;">testing</a> <a href="/blog/tags/travisci/" style="font-size: 12.5px;">travisci</a> <a href="/blog/tags/webdev/" style="font-size: 10px;">webdev</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/05/">May 2015</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Graham Cox<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'thewronglanguage';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+  </div>
+</body>
+</html>

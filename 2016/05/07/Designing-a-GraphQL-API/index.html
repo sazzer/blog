@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Designing a GraphQL API | The Wrong Language</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I’ve just gone through some of the reasons that I don’t like the Relay API requirements for GraphQL, so lets have a go at designing an API that I do like.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Designing a GraphQL API">
+<meta property="og:url" content="https://sazzer.github.io/blog/2016/05/07/Designing-a-GraphQL-API/index.html">
+<meta property="og:site_name" content="The Wrong Language">
+<meta property="og:description" content="I’ve just gone through some of the reasons that I don’t like the Relay API requirements for GraphQL, so lets have a go at designing an API that I do like.">
+<meta property="og:updated_time" content="2016-09-03T13:23:59.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Designing a GraphQL API">
+<meta name="twitter:description" content="I’ve just gone through some of the reasons that I don’t like the Relay API requirements for GraphQL, so lets have a go at designing an API that I do like.">
+<meta name="twitter:creator" content="@https://twitter.com/grahamcox82">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/blog/css/style.css">
+  <link rel="stylesheet" href="/blog/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-62627767-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/blog/" id="logo"><i class="logo"></i><span class="site-title">The Wrong Language</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/blog/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/blog/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/blog/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/blog/avatar.png">
+      <h2 id="name">Graham Cox</h2>
+      <h3 id="title">Software Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Sheffield, England</span>
+      <a id="follow" href="https://twitter.com/grahamcox82">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        18
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        28
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/sazzer" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/grahamcox82" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="/blog/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      <section id="main"><article id="post-Designing-a-GraphQL-API" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Designing a GraphQL API
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/blog/2016/05/07/Designing-a-GraphQL-API/">
+    <time datetime="2016-05-07T09:09:59.000Z" itemprop="datePublished">2016-05-07</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/blog/categories/programming/">programming</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I’ve just gone through some of the reasons that I don’t like the Relay API requirements for GraphQL, so lets have a go at designing an API that I do like.</p>
+<a id="more"></a>
+<h2 id="Result-Sets"><a href="#Result-Sets" class="headerlink" title="Result Sets"></a>Result Sets</h2><p>Let’s start with the bits of Relay that I do like, and use those. This means most of the Connection parts of the spec. Specifically the separation of Edges and Connections, and the idea of the Page Info object. I’m in two minds if I want to go for Cursor based pagination, or a simpler form using page numbers or offsets, so I’m going to fall back on <a href="https://en.wikipedia.org/wiki/Robustness_principle" target="_blank" rel="external">Postel’s Law</a> for that. Yes, it adds a little bit of complexity to the server layer, but really not that much and the benefits to the client layer are worth it.</p>
+<p>Firstly then, the PageInfo object. The PageInfo object is based on the one from Relay, but with some extra fields included.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">type PageInfo &#123;</div><div class="line">  hasNextPage: Boolean! # False if this is the last page</div><div class="line">  hasPreviousPage: Boolean! # False if this is the first page</div><div class="line">  pageOffset: Int! # The 0-based offset of the first record returned in the entire resultset</div><div class="line">  count: Int! # The total number of records in the entire resultset</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>These extra fields let you power a paginator on your results, because between these and the actual results array you know how many results total, and which results you have.</p>
+<p>Next comes an Edge. This is not a simple object, because it’s generic over the actual result type, but the definition will look something like:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">type Edge&lt;T&gt; &#123;</div><div class="line">  resource: T!</div><div class="line">  cursor: ID!</div><div class="line">  offset: Int!</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Note that we have the offset of each individual edge included if the client wishes to make use of it, and we also have a Cursor defined if the client wishes to use Cursor based pagination. This comes back to Postel’s Law, being liberal in which clients we support with our API. You’ll note that there is an Offset here as well as in the PageInfo object. The Offset of the first edge returned should be the same value as the offset in the PageInfo object. This means that you can choose to request every single offset individually if you desire, or you can request one single offset for the entire page and calculate the others yourself. It’s trivial for the server to do this, and means the client can be developed either way as desired.</p>
+<p>This then leads on to a Connection. Again, this is not a simple object because it’s generic over the type of Edge to support, but it will look something like:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">type Connection&lt;T&gt; &#123;</div><div class="line">  edges: [Edge&lt;T&gt;!]!</div><div class="line">  pageInfo: PageInfo!</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>All of this gives us an example resultset of:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"posts"</span>: &#123;</div><div class="line">    <span class="attr">"edges"</span>: [</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"resource"</span>: &#123;</div><div class="line">          <span class="attr">"title"</span>: <span class="string">"First Post"</span></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">"cursor"</span>: <span class="string">"b2Zmc2V0OjAK"</span>,</div><div class="line">        <span class="attr">"offset"</span>: <span class="number">0</span></div><div class="line">      &#125;, &#123;</div><div class="line">        <span class="attr">"resource"</span>: &#123;</div><div class="line">          <span class="attr">"title"</span>: <span class="string">"Second Post"</span></div><div class="line">        &#125;,</div><div class="line">        <span class="attr">"cursor"</span>: <span class="string">"b2Zmc2V0OjEK"</span>,</div><div class="line">        <span class="attr">"offset"</span>: <span class="number">1</span></div><div class="line">      &#125;</div><div class="line">    ],</div><div class="line">    <span class="attr">"pageInfo"</span>: &#123;</div><div class="line">      <span class="attr">"hasNextPage"</span>: <span class="literal">true</span>,</div><div class="line">      <span class="attr">"hasPreviousPage"</span>: <span class="literal">false</span>,</div><div class="line">      <span class="attr">"pageOffset"</span>: <span class="number">0</span>,</div><div class="line">      <span class="attr">"count"</span>: <span class="number">17</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Pagination"><a href="#Pagination" class="headerlink" title="Pagination"></a>Pagination</h2><p>Ok then. We can get paginated results out of the API now, but how do we ask for them? We need to have support for asking for a particular page of results. Generally speaking, there are three ways that pagination can work:</p>
+<ul>
+<li>Cursor + Count + Direction</li>
+<li>Page Number + Count</li>
+<li>Initial Record Offset + Count</li>
+</ul>
+<p>If we consider that Count + Direction can be replaced simply by a Count that can be negative, and if we consider that there <em>might</em> - there probably isn’t, but let’s be generic enough to support it anyway - be a reason to support the number of records before a given page or record offset, then we end up in the situation where we need to specify some representation of the start of the page, and the number of records to retrieve.</p>
+<p>Unfortunately, GraphQL doesn’t currently allow you to use Unions or Interfaces on Input Types, which means that if we want to support a situation where we support one of a number of different ways of specifying the start of the page we need to do it with custom server-side validation. As such, the schema could look like:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">type Page &#123;</div><div class="line">  cursor: ID</div><div class="line">  page: Int</div><div class="line">  offset: Int</div><div class="line">  count: Int</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>The other way of doing it would be to provide a value and an enum that tells the server what the value means, but then the value needs to be provided as a string even if it’s got to be numeric, and it means that you’ve got to pass an extra value across every time regardless. I also made the schema above allow the count to be optional as well - if not provided it would just use a sensible default instead. Another sensible behaviour would be that if none of cursor, page or offset were provided then the default is the first page of results, and if multiple are provided but happen to refer to the same start point then this is accepted as well. It is only an error when it is ambiguous what is meant.</p>
+<h2 id="Mutations"><a href="#Mutations" class="headerlink" title="Mutations"></a>Mutations</h2><p>Next, lets think about Mutations. Mutations in GraphQL are much closer to an RPC concept than in REST. REST pretty much mandates that the only mutations you can do are Create, Update and Delete of resources. GraphQL lets you specify any mutation that you want. However, odds are you want to support the standard Create, Update and Delete operations on most of your resources anyway. For top level resources, this is easy. For nested resources this is a bit more of a challenge, because you can’t nest mutations. As such, you need some way of specifying the nested resource that you want to work with. The proposal here is to define a type to identify the resource in question, which can include a number of different resource identifiers to work down to the nested resource. I would also recommend including inside of this type an optimistic lock value for the resource being edited. You probably don’t need this for all of the resources in the graph, but that depends on your data model.</p>
+<p>As an example of this, consider a blog system. You have posts, and you have comments. Comments are not a top-level concept - they make no sense to exist on their own. They are only ever a child of a post. As such, in order to edit a post itself you might use:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mutation editPost &#123;</div><div class="line">  editPost(id: &#123;post: 1, version: 7&#125;, patch: &#123;title: &apos;The new Title&apos;) &#123;</div><div class="line">    id,</div><div class="line">    version,</div><div class="line">    title,</div><div class="line">    body</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>And to edit a comment you might use:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mutation editComment &#123;</div><div class="line">  editCommentOnPost(id: &#123;post: 1, comment: 5, version: 2&#125;, patch: &#123;text: &apos;This is the updated comment&apos;&#125;) &#123;</div><div class="line">    id,</div><div class="line">    version,</div><div class="line">    text</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>The first of these updates the post with an ID of 1, providing the version of the post as being 7. The second of these updates the comment with the ID of 5, that is itself a child of the post with an ID of 1, providing the version of the comment as being 2.</p>
+<p>You might have noticed that I’ve included the changes as a patch, rather than providing the entire resource. I think this makes a lot of sense in a system that is deliberately designed to minimise the amount of traffic between client and server. If I need to change only one field, I shouldn’t be required to provide every field to the server. I did consider using the JSON Patch standard for this, but you lose type safety and the schema guarantees that make GraphQL so powerful if you do that. You would also need to provide every field as a string and do appropriate type conversions on the server depending on the field you are writing to, which is just a bit ugly. By defining a custom patch format for each resource the schema will do a lot of work for you, and the server updates become really simple.</p>
+<h2 id="Error-Handling"><a href="#Error-Handling" class="headerlink" title="Error Handling"></a>Error Handling</h2><p>Eventually when working with an API, something is going to go wrong. It’s generally more likely that mutations will fail than queries, but technically anything could. As such, the concepts here are best suited to mutations but can be made to work with queries if needed.</p>
+<p>GraphQL already has support for a top-level errors object returned as part of the response payload. This is wonderful for errors with the incoming request itself - e.g. if it is malformed or invalid in some way, or if the authorization details are invalid. It doesn’t work well when the errors are with a specific part of the request though - e.g. an optimistic lock failure on a mutation. <a href="https://medium.com/@tarkus/validation-and-user-errors-in-graphql-mutations-39ca79cd00bf#.fljypia9y" target="_blank" rel="external">Konstantin Tarkus has a proposal</a> on a way to improve this, but I personally don’t think it goes quite far enough. The basic idea is that the field would have a response that includes the actual response data and a list of errors.</p>
+<p>I’m going to propose something very similar, but leveraging the GraphQL type system some more to make it a bit cleaner to work with. My idea here is that the field will have a response that is a union type, consisting of either the actual success response or an error response. The error response would then be a list of error objects, which are richer than just a string error message - because there are extra details that are important as well. This would look something like:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">type Errors &#123;</div><div class="line">  globalErrors: [GlobalError!]!</div><div class="line">  fieldErrors: [FieldErrors!]!</div><div class="line">&#125;</div><div class="line"></div><div class="line">type GlobalError &#123;</div><div class="line">  code: ID!</div><div class="line">  message: String!</div><div class="line">&#125;</div><div class="line"></div><div class="line">type FieldError &#123;</div><div class="line">  code: ID!</div><div class="line">  field: ID!</div><div class="line">  message: String!</div><div class="line">&#125;</div><div class="line"></div><div class="line">union EditCommentResponse = Comment | Errors</div></pre></td></tr></table></figure></p>
+<p>This does start to mean that we need to use fragment operators to actually call the mutation, but that’s fine. We need to do something to know if we got a success or a failure anyway, and doing it in the GraphQL call is really no different to doing it in the actual client code. Our edit comment mutation from above now becomes:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">mutation editComment &#123;</div><div class="line">  editCommentOnPost(id: &#123;post: 1, comment: 5, version: 2&#125;, patch: &#123;text: &apos;This is the updated comment&apos;&#125;) &#123;</div><div class="line">    ... on Comment &#123;</div><div class="line">      id,</div><div class="line">      version,</div><div class="line">      text</div><div class="line">    &#125;</div><div class="line">    ... on Errors &#123;</div><div class="line">      globalErrors &#123;</div><div class="line">        code</div><div class="line">      &#125;,</div><div class="line">      fieldErrors &#123;</div><div class="line">        code,</div><div class="line">        field</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>I specified the error codes as an ID, but they could equally well be an enumeration if you want to define in the schema what the possible errors are. That makes it easier to work out whats going on, but at the cost of inflating the schema definition with all of these error enumerations. I also specified the Field Errors as a list of objects that contain the field name. I could equally make it an object with a list of errors, and be more typesafe about the error codes that are supported - it makes no sense to state that a boolean field was too long, for example - but again at the cost of the schema size. This is all a balancing act at the end of the day.</p>
+<p>I also did not request the error message in the response. This is because the error code should be enough for the client to understand, and the error message is more aimed at developers who are still getting to grips with the system. The reasoning behind this is i18n - error codes can very easily be converted into localised error messages for the user, but if the client depends on the error message coming from the server then the server needs to have support for every single language that every single possible client could support, which is difficult if you are aiming to support third party clients.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>That’s plenty to be getting on with. It gives us a good basis for an API, but without being too restrictive in what you must and mustn’t do.</p>
+<p>One of the key parts of all of this is the fact that any API definition is specific to the application in question. There has been a lot of work recently in defining API standards that are generic enough to support any API - using things like HATEOAS, for example - and I just feel that this is doomed from the offset. There is far too much API specific knowledge that needs to be baked in to the client for a general purpose API to actually be worth the costs involved in using it. You’re better off just developing a more specific API that fits your exact purposes, documenting it well, and being done with it. Clients are going to be custom anyway, so the use of a general purpose API is lost.</p>
+<p>As such, if you’ve read through all of this and decide that you like some bits and not others, just use those bits. Do whatever makes the most sense at the time and actually produce something that works. Don’t fall into my usual trap of trying to engineer the perfect API and ending up without actually producing anything.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sazzer.github.io/blog/blog/2016/05/07/Designing-a-GraphQL-API/" data-id="cisn813vf00046lg5so5wnflp" class="article-share-link">Share</a>
+      
+        <a href="https://sazzer.github.io/blog/blog/2016/05/07/Designing-a-GraphQL-API/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/api/">api</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/graphql/">graphql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/relay/">relay</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/2016/05/08/I-disagree-with-HATEOAS/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          I disagree with HATEOAS
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/2016/05/06/I-don-t-like-Relay/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">I don&#39;t like Relay</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/09/03/OpenID-Connect-Response-Types/" class="title">OpenID Connect Response Types</a></p>
+              <p class="item-date"><time datetime="2016-09-03T12:40:28.000Z" itemprop="datePublished">2016-09-03</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/29/TDD-with-Static-Typed-Languages/" class="title">TDD with Static Typed Languages</a></p>
+              <p class="item-date"><time datetime="2016-05-29T14:12:50.000Z" itemprop="datePublished">2016-05-29</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/08/I-disagree-with-HATEOAS/" class="title">I disagree with HATEOAS</a></p>
+              <p class="item-date"><time datetime="2016-05-08T10:22:01.000Z" itemprop="datePublished">2016-05-08</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/07/Designing-a-GraphQL-API/" class="title">Designing a GraphQL API</a></p>
+              <p class="item-date"><time datetime="2016-05-07T09:09:59.000Z" itemprop="datePublished">2016-05-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/06/I-don-t-like-Relay/" class="title">I don&#39;t like Relay</a></p>
+              <p class="item-date"><time datetime="2016-05-06T17:48:49.000Z" itemprop="datePublished">2016-05-06</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/blog/">blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/buildsystems/">buildsystems</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/programming/">programming</a><span class="category-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/HATEOAS/" style="font-size: 10px;">HATEOAS</a> <a href="/blog/tags/REST/" style="font-size: 10px;">REST</a> <a href="/blog/tags/TDD/" style="font-size: 10px;">TDD</a> <a href="/blog/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/blog/tags/api/" style="font-size: 20px;">api</a> <a href="/blog/tags/cors/" style="font-size: 10px;">cors</a> <a href="/blog/tags/es5/" style="font-size: 10px;">es5</a> <a href="/blog/tags/es6/" style="font-size: 15px;">es6</a> <a href="/blog/tags/github/" style="font-size: 10px;">github</a> <a href="/blog/tags/graphql/" style="font-size: 17.5px;">graphql</a> <a href="/blog/tags/grunt/" style="font-size: 15px;">grunt</a> <a href="/blog/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/blog/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/blog/tags/mocha/" style="font-size: 10px;">mocha</a> <a href="/blog/tags/mockery/" style="font-size: 10px;">mockery</a> <a href="/blog/tags/mocks/" style="font-size: 10px;">mocks</a> <a href="/blog/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/blog/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/blog/tags/oauth2/" style="font-size: 10px;">oauth2</a> <a href="/blog/tags/oidc/" style="font-size: 10px;">oidc</a> <a href="/blog/tags/openid/" style="font-size: 10px;">openid</a> <a href="/blog/tags/openid-connect/" style="font-size: 10px;">openid connect</a> <a href="/blog/tags/rant/" style="font-size: 10px;">rant</a> <a href="/blog/tags/relay/" style="font-size: 15px;">relay</a> <a href="/blog/tags/s3/" style="font-size: 10px;">s3</a> <a href="/blog/tags/testing/" style="font-size: 15px;">testing</a> <a href="/blog/tags/travisci/" style="font-size: 12.5px;">travisci</a> <a href="/blog/tags/webdev/" style="font-size: 10px;">webdev</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/05/">May 2015</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Graham Cox<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'thewronglanguage';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+  </div>
+</body>
+</html>

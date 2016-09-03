@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>What is Relay? | The Wrong Language</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Having just had a very brief overview of GraphQL, the next thing that might be of interest is Relay. Relay in this sense means one of two things. Either it means the Relay Javascript Framework that is">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What is Relay?">
+<meta property="og:url" content="https://sazzer.github.io/blog/2016/01/24/What-is-Relay/index.html">
+<meta property="og:site_name" content="The Wrong Language">
+<meta property="og:description" content="Having just had a very brief overview of GraphQL, the next thing that might be of interest is Relay. Relay in this sense means one of two things. Either it means the Relay Javascript Framework that is">
+<meta property="og:updated_time" content="2016-09-03T13:23:59.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="What is Relay?">
+<meta name="twitter:description" content="Having just had a very brief overview of GraphQL, the next thing that might be of interest is Relay. Relay in this sense means one of two things. Either it means the Relay Javascript Framework that is">
+<meta name="twitter:creator" content="@https://twitter.com/grahamcox82">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/blog/css/style.css">
+  <link rel="stylesheet" href="/blog/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-62627767-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/blog/" id="logo"><i class="logo"></i><span class="site-title">The Wrong Language</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/blog/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/blog/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/blog/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/blog/avatar.png">
+      <h2 id="name">Graham Cox</h2>
+      <h3 id="title">Software Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Sheffield, England</span>
+      <a id="follow" href="https://twitter.com/grahamcox82">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        18
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        28
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/sazzer" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/grahamcox82" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="/blog/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      <section id="main"><article id="post-What-is-Relay" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      What is Relay?
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/blog/2016/01/24/What-is-Relay/">
+    <time datetime="2016-01-24T22:22:28.000Z" itemprop="datePublished">2016-01-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/blog/categories/programming/">programming</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Having just had a very brief overview of GraphQL, the next thing that might be of interest is Relay. Relay in this sense means one of two things. Either it means the <a href="https://facebook.github.io/relay/" target="_blank" rel="external">Relay Javascript Framework</a> that is used in your frontend layer to communicate with a GraphQL Server, or - and this is what’s more interesting to myself right now - it means the set of concepts that your GraphQL Server needs to adhere to in order for it to be Relay Compatible.</p>
+<a id="more"></a>
+<p>Ultimately, Relay defines three specific concepts that you need to follow in your schema definition. However, one of these concepts is quite sizable and I tend to think of it more as four concepts that have some overlap. These four concepts are:</p>
+<ul>
+<li>Entity Loading</li>
+<li>Connections between Entities</li>
+<li>Pagination</li>
+<li>Mutations</li>
+</ul>
+<h3 id="Entity-Loading"><a href="#Entity-Loading" class="headerlink" title="Entity Loading"></a>Entity Loading</h3><p>This is covered in the Relay Specification under <a href="https://facebook.github.io/relay/graphql/objectidentification.htm" target="_blank" rel="external">Object Identification</a>. </p>
+<p>In brief, Relay requires that all of your identifiers for all of your resources are globally unique, and a single query field that can be used to load any resource of any time from this globally unique identifier. </p>
+<p>When we talk about a Globally Unique Identifier, we do really mean it. It must not be possible for the server to be ambiguous between the kind of resource to load when it is given just the ID. How you achieve this is entirely up to you, but my preference here is to have the ID be a Base64 encoded representation of the Resource Name and Database ID. (The idea of Base64 encoding the ID is so that it’s obvious to the client that it’s just an Opaque ID). So, for example:</p>
+<ul>
+<li>The first User might have an ID of “dXNlcjoxCg==” (user:1)</li>
+<li>The first Film might have an ID of “ZmlsbToxCg==” (film:1)</li>
+</ul>
+<p>Notice here that even though the database IDs are both the same, the ID that is used over the API is totally different, and when the server receives this ID it has enough information to know whether it represents a User or a Film.</p>
+<p>The other part of this concept is that there is a single uniform way of loading any resource knowing only it’s ID. This is the Query field <em>node</em>. This works by returning an instance of the Node interface - all resources in Relay must implement the Node interface, though all that means is that they have a unique ID - and uses some more complicated parts of the GraphQL specification to be able to extract the desired fields from it - namely the use of Inline Fragments to extract fields from a specific subtype of Node. This means that we can write a query as follow:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">query GetFilm &#123;</div><div class="line">    node(id: 'ZmlsbToxCg==') &#123;</div><div class="line">        id,</div><div class="line">        ... on Film &#123;</div><div class="line">            name</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>What this query says is “Get the resource with an ID of ‘ZmlsbToxCg==’, returning the ID and - iff the resource is a Film - the Name of the film”. We know that it’s a Film, because somehow we got hold of the ID and when we got hold if it we will have known it’s a Film from the context. This does mean that you need to keep track of what each ID means on the client side or else you’ll get very confused, but that shouldn’t be too difficult.</p>
+<h3 id="Connections-between-Entities"><a href="#Connections-between-Entities" class="headerlink" title="Connections between Entities"></a>Connections between Entities</h3><p>This is covered in the Relay Specification under <a href="https://facebook.github.io/relay/graphql/connections.htm" target="_blank" rel="external">Cursor Connections</a>.</p>
+<p>Relay requires a particular pattern when one resource links to a collection of other resources. This is represented by the concept of a Connection and Edges, where the outermost resource contains a Connection, the Connection contains a list of Edges, and each Edge contains a Node. For example, the User resource may look like:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    id: 'dXNlcjoxCg==',</div><div class="line">    name: 'Graham',</div><div class="line">    filmConnection: &#123;</div><div class="line">        edges: [</div><div class="line">            &#123;</div><div class="line">                node: &#123;</div><div class="line">                    id: 'ZmlsbToxCg==',</div><div class="line">                    name: 'The Shawshank Redemption'</div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                node: &#123;</div><div class="line">                    id: 'ZmlsbToyTCg==',</div><div class="line">                    name: 'The Godfather'</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>The benefit out of this is that the Connection and Edge entries can contain other data that relates to the related edges, and then the Node is the actual resource that was wanted. Specifically, the mandated extra information that can be included on Connection and Edge are related to Pagination, but you can put anything you like there. Specifically it can make sense to put the total number of records on the Connection.</p>
+<p>Note that each Node here has an ID on it. This must be usable in a call to the <em>node()</em> query - described above - to re-request the same resource again, possibly with different fields this time.</p>
+<h3 id="Pagination"><a href="#Pagination" class="headerlink" title="Pagination"></a>Pagination</h3><p>This is covered in the Relay Specification under <a href="https://facebook.github.io/relay/graphql/connections.htm" target="_blank" rel="external">Cursor Connections</a>.</p>
+<p>Pagination builds on top of the Connections and Edges concepts by adding some mandatory fields to the response, and some mandatory attributes to the queries that allow you to make use of them.</p>
+<p>On the Connection, we add a field called <em>pageInfo</em> which contains some details about the current page of records that was returned. This must contain fields <em>hasNextPage</em> and <em>hasPreviousPage</em>, but can contain other fields as well if that makes sense to your pagination model. On the Edge, we add a field called <em>cursor</em> which allows us to refer to this exact point in the Connection. This means that the above can then become:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    id: 'dXNlcjoxCg==',</div><div class="line">    name: 'Graham',</div><div class="line">    filmConnection: &#123;</div><div class="line">        pageInfo: &#123;</div><div class="line">            hasNextPage: true,</div><div class="line">            hasPreviousPage: false</div><div class="line">        &#125;,</div><div class="line">        edges: [</div><div class="line">            &#123;</div><div class="line">                cursor: 'MQo=',</div><div class="line">                node: &#123;</div><div class="line">                    id: 'ZmlsbToxCg==',</div><div class="line">                    name: 'The Shawshank Redemption'</div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                cursor: 'Mgo=',</div><div class="line">                node: &#123;</div><div class="line">                    id: 'ZmlsbToyTCg==',</div><div class="line">                    name: 'The Godfather'</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>The values returned in the <em>cursor</em> field are used for requesting more results. The second part of the Pagination concept is that there are certain required query attributes that you need to include to request a page of results. There are four additional attributes that are required to be supported, though only in certain combinations:</p>
+<ul>
+<li>first - The number of records to return reading <strong>forward</strong> from the <em>after</em> cursor, or the start of the resultset if not specified.</li>
+<li>after - The cursor to start reading forward from, if <em>first</em> was also specified.</li>
+<li>last - The number of records to return reading <strong>backwards</strong> from the <em>before</em> cursor, or the end of the resultset if not specified.</li>
+<li>before - The cursor to start rreading backwards from, if <em>last</em> was also specified.</li>
+</ul>
+<p>It is technically possible to specify both <em>first</em> and <em>last</em>, but it’s not obvious what should happen if you do. Note that none of these attributes are required, and if none of them are set then the specification states that the entire resultset should be returned. It may make more sense to instead return a default subset - e..g the first 10 records - so that the payload and server processing is not overwhelming.</p>
+<p>For example, requesting the above user with the next 2 films would look like:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">query UserFilms &#123;</div><div class="line">    node(id: "dXNlcjoxCg==") &#123;</div><div class="line">        ... on User &#123;</div><div class="line">            id,</div><div class="line">            name,</div><div class="line">            filmConnection(first: 2, after: "ZmlsbToyTCg==") &#123;</div><div class="line">                ........</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Mutations"><a href="#Mutations" class="headerlink" title="Mutations"></a>Mutations</h3><p>This is covered in the Relay Specification under <a href="https://facebook.github.io/relay/graphql/mutations.htm" target="_blank" rel="external">Input Object Mutations</a>.</p>
+<p>The only thing that the Relay Specification mandates is that each mutation must accept only a single argument, named <em>input</em>, and that this input must support a field called <em>clientMutationId</em>. The response from the mutation must return the exact same value in an output field also called <em>clientMutationId</em>. All of the rest of the inputs to the mutation are just included as fields on the <em>input</em> argument.</p>
+<h3 id="Putting-it-all-together"><a href="#Putting-it-all-together" class="headerlink" title="Putting it all together"></a>Putting it all together</h3><p>That seems like a lot that needs to be done. It’s not quite as bad as it seems though, since you only <em>need</em> to do these if you are wanting to support Relay as a client layer, and you may decide that you want to implement them anyway. In particular, the Connections and Edges are a useful way of grouping together resources in a graph without introducing differences in the resources when they are present at different parts of the graph.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sazzer.github.io/blog/blog/2016/01/24/What-is-Relay/" data-id="cisn813xt001b6lg5m7mgiswo" class="article-share-link">Share</a>
+      
+        <a href="https://sazzer.github.io/blog/blog/2016/01/24/What-is-Relay/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/api/">api</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/graphql/">graphql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/relay/">relay</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/2016/05/06/I-don-t-like-Relay/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          I don&#39;t like Relay
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/2016/01/24/What-is-GraphQL/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">What is GraphQL?</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/09/03/OpenID-Connect-Response-Types/" class="title">OpenID Connect Response Types</a></p>
+              <p class="item-date"><time datetime="2016-09-03T12:40:28.000Z" itemprop="datePublished">2016-09-03</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/29/TDD-with-Static-Typed-Languages/" class="title">TDD with Static Typed Languages</a></p>
+              <p class="item-date"><time datetime="2016-05-29T14:12:50.000Z" itemprop="datePublished">2016-05-29</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/08/I-disagree-with-HATEOAS/" class="title">I disagree with HATEOAS</a></p>
+              <p class="item-date"><time datetime="2016-05-08T10:22:01.000Z" itemprop="datePublished">2016-05-08</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/07/Designing-a-GraphQL-API/" class="title">Designing a GraphQL API</a></p>
+              <p class="item-date"><time datetime="2016-05-07T09:09:59.000Z" itemprop="datePublished">2016-05-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/06/I-don-t-like-Relay/" class="title">I don&#39;t like Relay</a></p>
+              <p class="item-date"><time datetime="2016-05-06T17:48:49.000Z" itemprop="datePublished">2016-05-06</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/blog/">blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/buildsystems/">buildsystems</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/programming/">programming</a><span class="category-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/HATEOAS/" style="font-size: 10px;">HATEOAS</a> <a href="/blog/tags/REST/" style="font-size: 10px;">REST</a> <a href="/blog/tags/TDD/" style="font-size: 10px;">TDD</a> <a href="/blog/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/blog/tags/api/" style="font-size: 20px;">api</a> <a href="/blog/tags/cors/" style="font-size: 10px;">cors</a> <a href="/blog/tags/es5/" style="font-size: 10px;">es5</a> <a href="/blog/tags/es6/" style="font-size: 15px;">es6</a> <a href="/blog/tags/github/" style="font-size: 10px;">github</a> <a href="/blog/tags/graphql/" style="font-size: 17.5px;">graphql</a> <a href="/blog/tags/grunt/" style="font-size: 15px;">grunt</a> <a href="/blog/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/blog/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/blog/tags/mocha/" style="font-size: 10px;">mocha</a> <a href="/blog/tags/mockery/" style="font-size: 10px;">mockery</a> <a href="/blog/tags/mocks/" style="font-size: 10px;">mocks</a> <a href="/blog/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/blog/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/blog/tags/oauth2/" style="font-size: 10px;">oauth2</a> <a href="/blog/tags/oidc/" style="font-size: 10px;">oidc</a> <a href="/blog/tags/openid/" style="font-size: 10px;">openid</a> <a href="/blog/tags/openid-connect/" style="font-size: 10px;">openid connect</a> <a href="/blog/tags/rant/" style="font-size: 10px;">rant</a> <a href="/blog/tags/relay/" style="font-size: 15px;">relay</a> <a href="/blog/tags/s3/" style="font-size: 10px;">s3</a> <a href="/blog/tags/testing/" style="font-size: 15px;">testing</a> <a href="/blog/tags/travisci/" style="font-size: 12.5px;">travisci</a> <a href="/blog/tags/webdev/" style="font-size: 10px;">webdev</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/05/">May 2015</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Graham Cox<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'thewronglanguage';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+  </div>
+</body>
+</html>

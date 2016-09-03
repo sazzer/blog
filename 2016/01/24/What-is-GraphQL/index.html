@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>What is GraphQL? | The Wrong Language</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="You may or may not have already come across GraphQL by now. GraphQL is a new concept coming out of the software people at Facebook, and like their other ideas recently - React and Flux mainly - it loo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What is GraphQL?">
+<meta property="og:url" content="https://sazzer.github.io/blog/2016/01/24/What-is-GraphQL/index.html">
+<meta property="og:site_name" content="The Wrong Language">
+<meta property="og:description" content="You may or may not have already come across GraphQL by now. GraphQL is a new concept coming out of the software people at Facebook, and like their other ideas recently - React and Flux mainly - it loo">
+<meta property="og:updated_time" content="2016-09-03T13:23:59.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="What is GraphQL?">
+<meta name="twitter:description" content="You may or may not have already come across GraphQL by now. GraphQL is a new concept coming out of the software people at Facebook, and like their other ideas recently - React and Flux mainly - it loo">
+<meta name="twitter:creator" content="@https://twitter.com/grahamcox82">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/blog/css/style.css">
+  <link rel="stylesheet" href="/blog/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-62627767-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/blog/" id="logo"><i class="logo"></i><span class="site-title">The Wrong Language</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/blog/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/blog/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/blog/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/blog/avatar.png">
+      <h2 id="name">Graham Cox</h2>
+      <h3 id="title">Software Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Sheffield, England</span>
+      <a id="follow" href="https://twitter.com/grahamcox82">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        18
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        28
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/sazzer" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/grahamcox82" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="/blog/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      <section id="main"><article id="post-What-is-GraphQL" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      What is GraphQL?
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/blog/2016/01/24/What-is-GraphQL/">
+    <time datetime="2016-01-24T18:24:12.000Z" itemprop="datePublished">2016-01-24</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/blog/categories/programming/">programming</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>You may or may not have already come across GraphQL by now. GraphQL is a new concept coming out of the software people at Facebook, and like their other ideas recently - React and Flux mainly - it looks like it could really change the way we think about our HTTP based API design.</p>
+<p>So, what is it exactly? And why is it a big deal?</p>
+<a id="more"></a>
+<p>GraphQL is a way of structuring your API such that the API Client is more in control of exactly what information is requested and how the information is returned. It also allows much more structured data to be returned in far fewer requests, because of how it represents the data that is being retrieved.</p>
+<p>That all sounds very good, but what does it mean? And how does it compare to what we’re already used to?</p>
+<p>Let’s start with the second question and go from there. It seems that the go-to mechanism for writing HTTP based APIs will be something resembling REST, often with all kinds of extra bits added on as well (HAL, HATEOAS, etc). REST gives you a hierarchical API pattern, in which you specify Resources and allow the client to access these resources in various different ways. Generally speaking, this breaks down to:</p>
+<ul>
+<li>List/Search - GET /resource</li>
+<li>Retrieve - GET /resource/1</li>
+<li>Create - POST /resource</li>
+<li>Update - PUT /resource/1</li>
+<li>Delete - DELETE /resource/1</li>
+</ul>
+<p>The hierarchical nature of this allows for some flexibility in the URL patterns to reflect how the data is structured. Let’s be a bit more realistic now and use a more real-world example. I’m going for a DVD Catalogue, since it’s a bit more unusual than what you normally see. In this, we have the following resources available:</p>
+<ul>
+<li>/users - Access to the user database</li>
+<li>/films - Access to the film database</li>
+<li>/users/&lt;id&gt;/films - Access to the film database for a particular user</li>
+</ul>
+<p>So far, so good. Although already we can see that we need to do extra work if we want to return a list of users and the films that each user has. And what happens if we want to see a list of other users that also have a particular film? The obvious way of doing that is:</p>
+<ul>
+<li>/films/&lt;id&gt;/users - Access to the users that all own a particular film</li>
+</ul>
+<p>This works, but again it makes it a bit clunky to see details across a number of films in one go. And what about when you want to find users that own films that are owned by a particular user? That’s quite a nasty case, but it’s perfectly feasible. In order to do that, we would need to:</p>
+<ol>
+<li>GET /users - find the user in question.</li>
+<li>GET /users/&lt;id&gt;/films - Find the films that the user has.</li>
+<li>GET /films/&lt;id&gt;/users - Find the users for each film returned. </li>
+</ol>
+<p>This means that if we do a search in #1 that returns 15 users, and each user has an average of 10 films, in order to find all of the users with shared films we have to:</p>
+<ul>
+<li>Make request #1 once</li>
+<li>Make request #2 15 times - once per user</li>
+<li>Make request #3 150 times - once for each film for each user</li>
+</ul>
+<p>That’s a total of 166 requests to get this data. Of course, if it’s a common use case you could write a custom endpoint to do it all in a single request, but then you are writing server-side code to handle client-side concerns.</p>
+<p>Enter GraphQL. When you write a GraphQL API, you don’t think of each resource as being independent any more. You need to instead think of all the resources as being an inter-connected graph. You define some entry points into the graph, and then the client can navigate as they wish. This all sounds very good, but what does it look like? The above query - to find all of the users that share films with another set of users - could look like:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">query UsersSharingFilms &#123;</div><div class="line">  users() &#123;</div><div class="line">    id,</div><div class="line">    name,</div><div class="line">    films() &#123;</div><div class="line">      id,</div><div class="line">      name,</div><div class="line">      ownerBy() &#123;</div><div class="line">        id,</div><div class="line">        name</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>So, that’s one query. That means one single request to the server, and it will return:</p>
+<ul>
+<li>All of the matching users, including the ID, Name and Films they own</li>
+<li>For each Film, the ID, Name and the Users that own the film</li>
+<li>For each owner, the ID and Name.</li>
+</ul>
+<p>Notice as well how there is a nesting from User -&gt; Film -&gt; User, which is where the Graph part comes in. Because the client dictates the query to be executed, and the server just provides the graph schema to query, you can navigate this as deeply or widely as you want.</p>
+<p>Also notice how the query is specifying which fields to return. This means that you only ever retrieve the details that you actually care about, and nothing more. In a RESTful API, you may find that the server returns significantly more information than you care about, just in case you do want it. This then takes longer to produce the response, longer to transmit the response and longer to parse the response. (Generally speaking, the time we’re talking about here is negligible, but as the resultset grows in size, this has more impact)</p>
+<p>Now, what happens if you want to get only a single user instead? You do this exactly the same:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">query GetUser &#123;</div><div class="line">    user(id: &lt;id&gt;) &#123;</div><div class="line">        id,</div><div class="line">        name</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>In fact, all Query mechanisms work exactly the same. You use a server-defined query that gives you the entry point into the graph, and you go from there. What’s even better, the top level request in the query works exactly the same as all other levels, so you can actually specify multiple queries in a single request:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">query GetUsersAndFilms &#123;</div><div class="line">    users() &#123;</div><div class="line">        id,</div><div class="line">        name</div><div class="line">    &#125;,</div><div class="line">    films() &#123;</div><div class="line">        id,</div><div class="line">        name</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>This query will return a response containing to lists, one of all the users and the other of all the films. And again, this is one request and one response.</p>
+<p>This all means that you can reproduce everything that REST does with a GET, but with more flexibility and more control. But what about changing data? How are we meant to do anything that causes the data to change?</p>
+<p>That’s simple. GraphQL defines two different top-level options. Above we’ve seen Query, but the other option is Mutation. This works identically to Query, but it has the understanding that the data will be mutated as a side-effect of the query. From the client point of view, the only difference is that you use the “mutation” keyword instead of the “query” keyword, and you need to use a defined Mutation instead of a defined Query. Because of this, we have the added benefits that we can specify multiple mutations in a single request, and we can specify the fields that we want to get back in the response to the mutation. For example:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">mutation AddFilmsToUser &#123;</div><div class="line">    addFilmToUser(user: &lt;userId1&gt;, film: &lt;filmId1&gt;) &#123;</div><div class="line">        name,</div><div class="line">        dateAdded</div><div class="line">    &#125;,</div><div class="line">    addFilmToUser(user: &lt;userId2&gt;, film: &lt;filmId2&gt;) &#123;</div><div class="line">        name,</div><div class="line">        dateAdded</div><div class="line">    &#125;,</div><div class="line">    addFilmToUser(user: &lt;userId3&gt;, film: &lt;filmId3&gt;) &#123;</div><div class="line">        name,</div><div class="line">        dateAdded</div><div class="line">    &#125;,</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Now, all this sounds fantastic, but how do you know what you can do with the API? One of the remaining problems that REST APIs have that GraphQL helps to fix is working out what you can actually do with the API. GraphQL offers a standard set of query fields that you can use to query the actual GraphQL Schema as opposed to the API Itself. This means that you can as a GraphQL Service to describe itself, and you can then have documentation and API Clients automatically generated based on this schema definition. This is actually quite complicated so I’m not going to describe it here, but there’s a fair few details to find already.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sazzer.github.io/blog/blog/2016/01/24/What-is-GraphQL/" data-id="cisn813xf00196lg5w4zv4h0l" class="article-share-link">Share</a>
+      
+        <a href="https://sazzer.github.io/blog/blog/2016/01/24/What-is-GraphQL/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/api/">api</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/graphql/">graphql</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/2016/01/24/What-is-Relay/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          What is Relay?
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/2015/10/24/Some-notes-on-supporting-CORS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Some notes on supporting CORS</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/09/03/OpenID-Connect-Response-Types/" class="title">OpenID Connect Response Types</a></p>
+              <p class="item-date"><time datetime="2016-09-03T12:40:28.000Z" itemprop="datePublished">2016-09-03</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/29/TDD-with-Static-Typed-Languages/" class="title">TDD with Static Typed Languages</a></p>
+              <p class="item-date"><time datetime="2016-05-29T14:12:50.000Z" itemprop="datePublished">2016-05-29</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/08/I-disagree-with-HATEOAS/" class="title">I disagree with HATEOAS</a></p>
+              <p class="item-date"><time datetime="2016-05-08T10:22:01.000Z" itemprop="datePublished">2016-05-08</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/07/Designing-a-GraphQL-API/" class="title">Designing a GraphQL API</a></p>
+              <p class="item-date"><time datetime="2016-05-07T09:09:59.000Z" itemprop="datePublished">2016-05-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/06/I-don-t-like-Relay/" class="title">I don&#39;t like Relay</a></p>
+              <p class="item-date"><time datetime="2016-05-06T17:48:49.000Z" itemprop="datePublished">2016-05-06</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/blog/">blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/buildsystems/">buildsystems</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/programming/">programming</a><span class="category-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/HATEOAS/" style="font-size: 10px;">HATEOAS</a> <a href="/blog/tags/REST/" style="font-size: 10px;">REST</a> <a href="/blog/tags/TDD/" style="font-size: 10px;">TDD</a> <a href="/blog/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/blog/tags/api/" style="font-size: 20px;">api</a> <a href="/blog/tags/cors/" style="font-size: 10px;">cors</a> <a href="/blog/tags/es5/" style="font-size: 10px;">es5</a> <a href="/blog/tags/es6/" style="font-size: 15px;">es6</a> <a href="/blog/tags/github/" style="font-size: 10px;">github</a> <a href="/blog/tags/graphql/" style="font-size: 17.5px;">graphql</a> <a href="/blog/tags/grunt/" style="font-size: 15px;">grunt</a> <a href="/blog/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/blog/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/blog/tags/mocha/" style="font-size: 10px;">mocha</a> <a href="/blog/tags/mockery/" style="font-size: 10px;">mockery</a> <a href="/blog/tags/mocks/" style="font-size: 10px;">mocks</a> <a href="/blog/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/blog/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/blog/tags/oauth2/" style="font-size: 10px;">oauth2</a> <a href="/blog/tags/oidc/" style="font-size: 10px;">oidc</a> <a href="/blog/tags/openid/" style="font-size: 10px;">openid</a> <a href="/blog/tags/openid-connect/" style="font-size: 10px;">openid connect</a> <a href="/blog/tags/rant/" style="font-size: 10px;">rant</a> <a href="/blog/tags/relay/" style="font-size: 15px;">relay</a> <a href="/blog/tags/s3/" style="font-size: 10px;">s3</a> <a href="/blog/tags/testing/" style="font-size: 15px;">testing</a> <a href="/blog/tags/travisci/" style="font-size: 12.5px;">travisci</a> <a href="/blog/tags/webdev/" style="font-size: 10px;">webdev</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/05/">May 2015</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Graham Cox<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'thewronglanguage';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+  </div>
+</body>
+</html>

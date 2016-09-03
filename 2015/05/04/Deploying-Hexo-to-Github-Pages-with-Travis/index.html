@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Deploying Hexo to Github Pages with Travis | The Wrong Language</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I’ve just recently been working on getting my Hexo blog set up, and importantly on getting it automatically deploy to Github Pages every time I do a commit. Given that this is a generated site, there">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deploying Hexo to Github Pages with Travis">
+<meta property="og:url" content="https://sazzer.github.io/blog/2015/05/04/Deploying-Hexo-to-Github-Pages-with-Travis/index.html">
+<meta property="og:site_name" content="The Wrong Language">
+<meta property="og:description" content="I’ve just recently been working on getting my Hexo blog set up, and importantly on getting it automatically deploy to Github Pages every time I do a commit. Given that this is a generated site, there">
+<meta property="og:updated_time" content="2016-09-03T13:23:59.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Deploying Hexo to Github Pages with Travis">
+<meta name="twitter:description" content="I’ve just recently been working on getting my Hexo blog set up, and importantly on getting it automatically deploy to Github Pages every time I do a commit. Given that this is a generated site, there">
+<meta name="twitter:creator" content="@https://twitter.com/grahamcox82">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/blog/css/style.css">
+  <link rel="stylesheet" href="/blog/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-62627767-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/blog/" id="logo"><i class="logo"></i><span class="site-title">The Wrong Language</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/blog/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/blog/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/blog/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/blog/avatar.png">
+      <h2 id="name">Graham Cox</h2>
+      <h3 id="title">Software Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Sheffield, England</span>
+      <a id="follow" href="https://twitter.com/grahamcox82">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        18
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        28
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/sazzer" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/grahamcox82" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="/blog/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      <section id="main"><article id="post-Deploying-Hexo-to-Github-Pages-with-Travis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Deploying Hexo to Github Pages with Travis
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/blog/2015/05/04/Deploying-Hexo-to-Github-Pages-with-Travis/">
+    <time datetime="2015-05-04T19:32:38.000Z" itemprop="datePublished">2015-05-04</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/blog/categories/blog/">blog</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I’ve just recently been working on getting my Hexo blog set up, and importantly on getting it automatically deploy to Github Pages every time I do a commit. Given that this is a generated site, there are intermediate steps involved between the source that is committed and the site that is deployed. </p>
+<p>The obvious way to achieve the actual Build part of this is to use the fantastic <a href="https://travis-ci.org/" target="_blank" rel="external">Travis CI</a>, which can be set up to perform a build every time you do a commit to a Github Repository. The challenge involved in this is getting Travis to be able to push the deployed site back to Github for it to be accessed. However, it turns out that Github have a solution that can work for this as well.</p>
+<p>From this point on, I’m going to assume that you’ve already got Hexo configured as you want it, and you know how to configure Travis to build a Github repository correctly.</p>
+<a id="more"></a>
+<h3 id="Configure-Travis-to-build-Hexo"><a href="#Configure-Travis-to-build-Hexo" class="headerlink" title="Configure Travis to build Hexo"></a>Configure Travis to build Hexo</h3><p>The first thing that I did was to configure Travis to build the Hexo site, but not deploy it. This is simply a case of enabling the Travis hooks for this repository, and adding a .travis.yml file as follows:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="attr">language:</span> node_js</div><div class="line"><span class="attr">branches:</span></div><div class="line"><span class="attr">  only:</span></div><div class="line"><span class="bullet">  -</span> master</div><div class="line"><span class="attr">before_install:</span></div><div class="line"><span class="bullet">-</span> npm install -g hexo</div><div class="line"><span class="bullet">-</span> npm install</div><div class="line"><span class="attr">install:</span></div><div class="line"><span class="bullet">-</span> hexo generate</div></pre></td></tr></table></figure></p>
+<p>This configures Travis to treat the repository as a Node.JS build, to only ever build when the “master” branch changes (This is important, otherwise we get an infinite loop caused by Travis updating the repo itself), and to actually install Hexo and run the generate step.</p>
+<h3 id="Configure-Hexo-to-deploy-to-Git"><a href="#Configure-Hexo-to-deploy-to-Git" class="headerlink" title="Configure Hexo to deploy to Git"></a>Configure Hexo to deploy to Git</h3><p>Next we need to configure Hexo to deploy to Github correctly. This is best done using the existing “hexo-deployer-git” plugin, which does exactly what we need. Installing this is as simple as:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install --save hexo-deployer-git</div></pre></td></tr></table></figure>
+<p>and then entering the following into the _config.yml file in the Hexo root. </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">deploy:</span></div><div class="line"><span class="attr">    type:</span> git</div><div class="line"><span class="attr">    repo:</span> git@github.com:sazzer/blog.git</div><div class="line"><span class="attr">    branch:</span> gh-pages</div></pre></td></tr></table></figure>
+<p>The branch needs to be “gh-pages” to work with the Github Pages system, and the repo needs to be the repository that you wish to deploy to. Note that I’ve used the SSH version of the URL here, which means that you can deploy to it manually but Travis will not be able to, unless you’re daft enough to configure your Github account with an SSH Key that Travis uses. (Don’t do that)</p>
+<h3 id="Set-up-a-Github-Token-to-use-for-deployments"><a href="#Set-up-a-Github-Token-to-use-for-deployments" class="headerlink" title="Set up a Github Token to use for deployments"></a>Set up a Github Token to use for deployments</h3><p>Travis is unable to push to your Github repository by default. This makes a lot of sense from a security point of view - if Travis can push to your repository then it can change your code without your permission. However, Github have an OAuth style system where you can use an alternative URL to push to that uses an OAuth token instead of an SSH key. </p>
+<p>Firstly you need a Token. You can generate these by visiting the <a href="https://github.com/settings/tokens" target="_blank" rel="external">Personal access tokens</a> page in your Github settings. Simply configure a new token here, and make sure that it has the “repo” permissions at least.</p>
+<p>When we want to use this token to actually push to Github, we use a different URL to the usual one. This isn’t instantly obvious, but the URL that you need to use is: https://<token>:x-oauth-basic@github.com/<user>/<repo>.git. So, for this blog the URL is https://<token>:x-oauth-basic@github.com/sazzer/blog.git.</token></repo></user></token></p>
+<h3 id="Rewrite-the-Hexo-config-to-use-the-Github-Token"><a href="#Rewrite-the-Hexo-config-to-use-the-Github-Token" class="headerlink" title="Rewrite the Hexo config to use the Github Token"></a>Rewrite the Hexo config to use the Github Token</h3><p>We obviously don’t want to ever commit the Github Token to the repository in plain text - that would be silly. If we do that then anyone who can read the repo, which for Public repositories means everyone, can see the token and then push changes to it. What’s worse, the token is applied to the entire account, not just to a single repository so if someone compromises this token then they can write to <em>every</em> repository you’ve got.</p>
+<p>Thankfully, Travis has a solution here too. Travis supports setting Encrypted settings in your .travis.yml file, so you can safely add an encrypted setting that stores your Github token safe in the knowledge that only Travis builds of this specific Github repository - not forks of it - can read it.</p>
+<p>To do this you need to use the Travis command line tools. This is a simple Ruby gem, so you can install it with:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ gem install travis</div><div class="line">$ travis login</div></pre></td></tr></table></figure>
+<p>Once installed you then add a new setting to your .travis.yml file with:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ travis encrypt <span class="string">'GH_TOKEN=&lt;TOKEN&gt;'</span> --add</div></pre></td></tr></table></figure></p>
+<p>This will add a new section to your .travis.yml file along the lines of:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">env:</span></div><div class="line"><span class="attr">  global:</span></div><div class="line"><span class="attr">      secure:</span> X7+<span class="number">8</span>XAko5oQgDTuPbLEQVlb0qwXjLkz1Pgia6eGL4Q/<span class="number">0</span>kZ89hGzGtOrKAhmtZRpcmg+PBxrLo5bdziAP/rvFslIabHHYBYv8ES8VrA81B/Q+t1VFbQEfhZdSq/L0wVsyBe2p6OOu2bNOLjPMG//aaynLxXstEEVSHh/lSuzsE4A=</div></pre></td></tr></table></figure></p>
+<p>That long string is the encrypted environment settings that we want to use. When the Travis build executes then an environment variable called “GH_TOKEN” will exist with the Github token in it.</p>
+<p>The next trick here is to dynamically re-write the Hexo configuration file to use the Token based URL instead of the SSH based one. This is done simply using sed, because why not. All I did here was to add the following to the .travis.yml file</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">before_script:</span></div><div class="line"><span class="bullet">-</span> git config --global user.name <span class="string">'Graham Cox via Travis CI'</span></div><div class="line"><span class="bullet">-</span> git config --global user.email <span class="string">'graham@grahamcox.co.uk'</span></div><div class="line"><span class="bullet">-</span> sed -i<span class="string">''</span> <span class="string">"s~git@github.com:sazzer/blog.git~https://$&#123;GH_TOKEN&#125;:x-oauth-basic@github.com/sazzer/blog.git~"</span> _config.yml</div></pre></td></tr></table></figure>
+<p>The trick here is that we take the repository string that is in the _config.yml file that represents the SSH repository URL, and replace it with the HTTP Token based version. We also set up a global username and email so that the commit has a suitable author.</p>
+<h3 id="Actually-deploy-from-Travis"><a href="#Actually-deploy-from-Travis" class="headerlink" title="Actually deploy from Travis"></a>Actually deploy from Travis</h3><p>The only thing left to do is to get Travis to actually deploy the generated site to Github. This is a simple case of adding the following to the .travis.yml file<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">script:</span></div><div class="line"><span class="bullet">-</span> hexo deploy --silent</div></pre></td></tr></table></figure></p>
+<p>The “–silent” is important here, because otherwise the Travis logs will include the full Push URL, which itself includes the Github Token that we must keep secret. </p>
+<p>I’ve seen other writeups that use “after_script” instead, but if you use that then the deploy failing doesn’t cause the Travis build to break, so I’ve used “script” instead.</p>
+<p>And that’s it. After all of the above, I can write a new post, do a push to Github and a few minutes later it’s live.</p>
+<p>You can see the actual configuration that I’ve used in the following files:</p>
+<ul>
+<li><a href="https://github.com/sazzer/blog/blob/master/.travis.yml" target="_blank" rel="external">.travis.yml</a></li>
+<li><a href="https://github.com/sazzer/blog/blob/master/_config.yml" target="_blank" rel="external">_config.yml</a></li>
+<li><a href="https://github.com/sazzer/blog/blob/master/package.json" target="_blank" rel="external">package.json</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sazzer.github.io/blog/blog/2015/05/04/Deploying-Hexo-to-Github-Pages-with-Travis/" data-id="cisn813uz00006lg555dx5b5j" class="article-share-link">Share</a>
+      
+        <a href="https://sazzer.github.io/blog/blog/2015/05/04/Deploying-Hexo-to-Github-Pages-with-Travis/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/travisci/">travisci</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/2015/05/12/Javascript-modules-ES5-vs-ES6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Javascript modules - ES5 vs ES6
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/2015/05/04/Hexo-for-Static-Generated-blogs/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hexo for Static Generated blogs</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/09/03/OpenID-Connect-Response-Types/" class="title">OpenID Connect Response Types</a></p>
+              <p class="item-date"><time datetime="2016-09-03T12:40:28.000Z" itemprop="datePublished">2016-09-03</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/29/TDD-with-Static-Typed-Languages/" class="title">TDD with Static Typed Languages</a></p>
+              <p class="item-date"><time datetime="2016-05-29T14:12:50.000Z" itemprop="datePublished">2016-05-29</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/08/I-disagree-with-HATEOAS/" class="title">I disagree with HATEOAS</a></p>
+              <p class="item-date"><time datetime="2016-05-08T10:22:01.000Z" itemprop="datePublished">2016-05-08</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/07/Designing-a-GraphQL-API/" class="title">Designing a GraphQL API</a></p>
+              <p class="item-date"><time datetime="2016-05-07T09:09:59.000Z" itemprop="datePublished">2016-05-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/06/I-don-t-like-Relay/" class="title">I don&#39;t like Relay</a></p>
+              <p class="item-date"><time datetime="2016-05-06T17:48:49.000Z" itemprop="datePublished">2016-05-06</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/blog/">blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/buildsystems/">buildsystems</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/programming/">programming</a><span class="category-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/HATEOAS/" style="font-size: 10px;">HATEOAS</a> <a href="/blog/tags/REST/" style="font-size: 10px;">REST</a> <a href="/blog/tags/TDD/" style="font-size: 10px;">TDD</a> <a href="/blog/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/blog/tags/api/" style="font-size: 20px;">api</a> <a href="/blog/tags/cors/" style="font-size: 10px;">cors</a> <a href="/blog/tags/es5/" style="font-size: 10px;">es5</a> <a href="/blog/tags/es6/" style="font-size: 15px;">es6</a> <a href="/blog/tags/github/" style="font-size: 10px;">github</a> <a href="/blog/tags/graphql/" style="font-size: 17.5px;">graphql</a> <a href="/blog/tags/grunt/" style="font-size: 15px;">grunt</a> <a href="/blog/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/blog/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/blog/tags/mocha/" style="font-size: 10px;">mocha</a> <a href="/blog/tags/mockery/" style="font-size: 10px;">mockery</a> <a href="/blog/tags/mocks/" style="font-size: 10px;">mocks</a> <a href="/blog/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/blog/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/blog/tags/oauth2/" style="font-size: 10px;">oauth2</a> <a href="/blog/tags/oidc/" style="font-size: 10px;">oidc</a> <a href="/blog/tags/openid/" style="font-size: 10px;">openid</a> <a href="/blog/tags/openid-connect/" style="font-size: 10px;">openid connect</a> <a href="/blog/tags/rant/" style="font-size: 10px;">rant</a> <a href="/blog/tags/relay/" style="font-size: 15px;">relay</a> <a href="/blog/tags/s3/" style="font-size: 10px;">s3</a> <a href="/blog/tags/testing/" style="font-size: 15px;">testing</a> <a href="/blog/tags/travisci/" style="font-size: 12.5px;">travisci</a> <a href="/blog/tags/webdev/" style="font-size: 10px;">webdev</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/05/">May 2015</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Graham Cox<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'thewronglanguage';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+  </div>
+</body>
+</html>

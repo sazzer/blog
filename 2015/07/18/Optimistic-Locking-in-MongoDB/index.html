@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Optimistic Locking in MongoDB | The Wrong Language</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MongoDB has a lot of good things about it, and equally a lot of bad things about it. This is true of most database engines though, and you need to know what you’re looking at to be able to make a good">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Optimistic Locking in MongoDB">
+<meta property="og:url" content="https://sazzer.github.io/blog/2015/07/18/Optimistic-Locking-in-MongoDB/index.html">
+<meta property="og:site_name" content="The Wrong Language">
+<meta property="og:description" content="MongoDB has a lot of good things about it, and equally a lot of bad things about it. This is true of most database engines though, and you need to know what you’re looking at to be able to make a good">
+<meta property="og:updated_time" content="2016-09-03T13:23:59.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Optimistic Locking in MongoDB">
+<meta name="twitter:description" content="MongoDB has a lot of good things about it, and equally a lot of bad things about it. This is true of most database engines though, and you need to know what you’re looking at to be able to make a good">
+<meta name="twitter:creator" content="@https://twitter.com/grahamcox82">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/blog/css/style.css">
+  <link rel="stylesheet" href="/blog/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-62627767-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/blog/" id="logo"><i class="logo"></i><span class="site-title">The Wrong Language</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/blog/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/blog/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/blog/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/blog/avatar.png">
+      <h2 id="name">Graham Cox</h2>
+      <h3 id="title">Software Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Sheffield, England</span>
+      <a id="follow" href="https://twitter.com/grahamcox82">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        18
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        28
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/sazzer" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/grahamcox82" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="/blog/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      <section id="main"><article id="post-Optimistic-Locking-in-MongoDB" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Optimistic Locking in MongoDB
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/blog/2015/07/18/Optimistic-Locking-in-MongoDB/">
+    <time datetime="2015-07-18T09:31:31.000Z" itemprop="datePublished">2015-07-18</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/blog/categories/programming/">programming</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MongoDB has a lot of good things about it, and equally a lot of bad things about it. This is true of most database engines though, and you need to know what you’re looking at to be able to make a good call over which system to use for what you’re doing.</p>
+<p>Optimistic locking is traditionally quite difficult to achieve. You need to ensure that the version in the database matches the version in the update request, and fail if that’s not the case. There are a few ways of achieving this, but often with risks and race conditions involved.</p>
+<a id="more"></a>
+<p>MongoDB has the ability to execute a number of different atomic updates in a single statement, direct in the database. This can be used to our advantage here. Specifically here, we will be making use of the <a href="http://docs.mongodb.org/manual/reference/operator/update/set/" target="_blank" rel="external">$set</a>, <a href="http://docs.mongodb.org/manual/reference/operator/update/setOnInsert" target="_blank" rel="external">$setOnInsert</a> and <a href="http://docs.mongodb.org/manual/reference/operator/update/inc" target="_blank" rel="external">$inc</a> operators for this.</p>
+<h3 id="Check-the-version-matches-first"><a href="#Check-the-version-matches-first" class="headerlink" title="Check the version matches first"></a>Check the version matches first</h3><p>The first thing would be to ensure that the database contains the same version as the update request. This could be done by querying the database first,  as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; db.test.find(&#123;&quot;_id&quot;: &quot;abcdef&quot;&#125;)</div><div class="line">&#123; &quot;_id&quot; : &quot;abcdef&quot;, &quot;name&quot; : &quot;Test&quot;, &quot;description&quot; : &quot;Test Document&quot;, &quot;version&quot; : 1 &#125;</div><div class="line">&gt; db.test.save(&#123;&quot;_id&quot;: &quot;abcdef&quot;, &quot;version&quot;: 2, &quot;name&quot;: &quot;Test&quot;, &quot;description&quot;: &quot;Updated&quot;&#125;);</div><div class="line">WriteResult(&#123; &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 &#125;)</div></pre></td></tr></table></figure>
+<p>If this returns anything then we can check that the database version matches. This works well enough, except for the risk of somebody else introducing a change to the data between us doing this check and us doing the update. We’ll cover that in a bit</p>
+<h3 id="Perform-atomic-updates-instead-of-a-complete-rewrite"><a href="#Perform-atomic-updates-instead-of-a-complete-rewrite" class="headerlink" title="Perform atomic updates instead of a complete rewrite"></a>Perform atomic updates instead of a complete rewrite</h3><p>The above replaced the entire document with a new version of it. This works, but requries that the entire document is provided every time. Also, and more importantly here, it requires that all of the new fields are computed by the client code and not the database. We can do better than that, using the atomic updates that are supported. Instead of the above, we can do the following:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db.test.update(&#123;&quot;_id&quot;: &quot;abcdef&quot;&#125;, &#123;&quot;$set&quot;: &#123;&quot;name&quot;: &quot;Test&quot;, &quot;description&quot;: &quot;Updated&quot;, &quot;version&quot;: 3&#125;&#125;);</div><div class="line">WriteResult(&#123; &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 &#125;)</div></pre></td></tr></table></figure></p>
+<p>The two above statements do exactly the same. However, the update statement only sets the three fields specified - name, description and version - and doesn’t touch any other fields at all. </p>
+<h3 id="Update-the-database-only-if-the-version-matches"><a href="#Update-the-database-only-if-the-version-matches" class="headerlink" title="Update the database only if the version matches"></a>Update the database only if the version matches</h3><p>You’ll notice that the above update statement starts with a query. We can use this to only update the database record if the version is the same. This means that we can avoid the check and race condition that goes along with it. Instead we ask the database to atomically update the record only if the version matches. This is simply done as follows:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db.test.update(&#123;&quot;_id&quot;: &quot;abcdef&quot;, &quot;version&quot;: 3&#125;, &#123;&quot;$set&quot;: &#123;&quot;name&quot;: &quot;Test&quot;, &quot;description&quot;: &quot;Updated&quot;, &quot;version&quot;: 4&#125;&#125;);</div><div class="line">WriteResult(&#123; &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 &#125;)</div></pre></td></tr></table></figure></p>
+<p>If, however, we do this and the version doesn’t match then nothing gets updated:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db.test.update(&#123;&quot;_id&quot;: &quot;abcdef&quot;, &quot;version&quot;: 3&#125;, &#123;&quot;$set&quot;: &#123;&quot;name&quot;: &quot;Test&quot;, &quot;description&quot;: &quot;Updated&quot;, &quot;version&quot;: 4&#125;&#125;);</div><div class="line">WriteResult(&#123; &quot;nMatched&quot; : 0, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 0 &#125;)</div></pre></td></tr></table></figure></p>
+<h3 id="Update-the-version-number-in-the-database"><a href="#Update-the-version-number-in-the-database" class="headerlink" title="Update the version number in the database"></a>Update the version number in the database</h3><p>Even with the above, we still need to know what the version number should be updated to before we can save it. This is not too bad in the case of the version number, but still if we can do it in the database then there are other benefits that we’ll see later.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db.test.update(&#123;&quot;_id&quot;: &quot;abcdef&quot;, &quot;version&quot;: 4&#125;, &#123;&quot;$set&quot;: &#123;&quot;name&quot;: &quot;Test&quot;, &quot;description&quot;: &quot;Updated&quot;&#125;, &quot;$inc&quot;: &#123;&quot;version&quot;: 1&#125;&#125;);</div><div class="line">WriteResult(&#123; &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 &#125;)</div></pre></td></tr></table></figure></p>
+<p>In this case, we’re incrementing the version number by 1. This can be whatever rate we want to use, but importantly as long as we use the same for every update then that part of the document never changes. We dynamically write the version number in the query but not in the update. This makes our client code that little bit simpler.</p>
+<h3 id="But-what-if-we’re-saving-a-new-document"><a href="#But-what-if-we’re-saving-a-new-document" class="headerlink" title="But what if we’re saving a new document?"></a>But what if we’re saving a new document?</h3><p>Now, all this is well and good, but we can go better still. MongoDB supports what’s called Upserting. This means that if the document to update doesn’t exist then we can instruct it to create a new one in its place. This is where the incrementing of the version number really wins.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db.test.update(&#123;&quot;_id&quot;: &quot;fedcba&quot;&#125;, &#123;&quot;$set&quot;: &#123;&quot;name&quot;: &quot;Test&quot;, &quot;description&quot;: &quot;Updated&quot;&#125;, &quot;$inc&quot;: &#123;&quot;version&quot;: 1&#125;&#125;, &#123;&quot;upsert&quot;: true&#125;);</div><div class="line">WriteResult(&#123; &quot;nMatched&quot; : 0, &quot;nUpserted&quot; : 1, &quot;nModified&quot; : 0, &quot;_id&quot; : &quot;fedcba&quot; &#125;)</div></pre></td></tr></table></figure>
+<p>You’ll notice that there are only two differences between this command and the previous one. We added a third parameter telling MongoDB to perform an Upsert, and we didn’t include a Version number in the query. Unfortunately, if you do include a version number - even with a value of null - then the “$inc” operator will fail on creating a new record. However, missing off that field altogether isn’t exactly hard. But what has it actually done?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db.test.find(&#123;&quot;_id&quot;: &quot;fedcba&quot;&#125;);</div><div class="line">&#123; &quot;_id&quot; : &quot;fedcba&quot;, &quot;name&quot; : &quot;Test&quot;, &quot;description&quot; : &quot;Updated&quot;, &quot;version&quot; : 1 &#125;</div></pre></td></tr></table></figure></p>
+<p>It’s created a brand new document, with the ID that we queried for and a version number of 1. That’s pretty much perfect. You will notice that it used the ID that we queried for. This means that the client code must be responsible for ID generation. That’s not a huge problem though - just generate a UUID and you’re done. If you miss the ID out of the query altogether then you’ll instead update every single document in the database. </p>
+<p>If you want to continue using the traditional Save command to save a new document and have MongoDB generate an ID for you then that’s also easy, but it does mean that Save and Create have different code paths. The above means that we can have a single code path for both. That’s a huge win.</p>
+<h3 id="How-does-this-affect-optimistic-locking"><a href="#How-does-this-affect-optimistic-locking" class="headerlink" title="How does this affect optimistic locking?"></a>How does this affect optimistic locking?</h3><p>Now, given that Upserting means that we create a new document if the query doesn’t find an existing one, how does this affect Optimistic Locking? If we provide an ID and Version that don’t exist in the database, won’t that just create a new document instead and cause problems? No. MongoDB handles this by the fact that the ID must be unique. Again, this only works if you are generating IDs yourself.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt; db.test.update(&#123;&quot;_id&quot;: &quot;fedcba&quot;, &quot;version&quot;: 1&#125;, &#123;&quot;$set&quot;: &#123;&quot;name&quot;: &quot;Test&quot;, &quot;description&quot;: &quot;Updated&quot;&#125;, &quot;$inc&quot;: &#123;&quot;version&quot;: 1&#125;&#125;, &#123;&quot;upsert&quot;: true&#125;);</div><div class="line">WriteResult(&#123;</div><div class="line">        &quot;nMatched&quot; : 0,</div><div class="line">        &quot;nUpserted&quot; : 0,</div><div class="line">        &quot;nModified&quot; : 0,</div><div class="line">        &quot;writeError&quot; : &#123;</div><div class="line">                &quot;code&quot; : 11000,</div><div class="line">                &quot;errmsg&quot; : &quot;E11000 duplicate key error index: test.test.$_id_ dup key: &#123; : \&quot;fedcba\&quot; &#125;&quot;</div><div class="line">        &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>Now, this time the error was different. It did indeed try to create a new record, but it failed because the key was already in use. </p>
+<p>There is a problem with this, but it’s a very minor one. It does highlight how important the key generation is though. If you try to save a record with no version number - because it’s a new record - but with an ID that matches an existing one then you will update that existing one instead of creating a new one. This is potentially disasterous, but if your ID generation is unique enough - UUID has such a minimal chance of collisions that it’s not worth worrying about - then you can manage. If that’s not good enough then you may need to do something stricter - I can think of a few ID generation techniques that would work - or else use the traditional MongoDB mechanisms that will generate an ID for you on saving a new record.</p>
+<h3 id="What-about-a-Creation-Date-field"><a href="#What-about-a-Creation-Date-field" class="headerlink" title="What about a Creation Date field?"></a>What about a Creation Date field?</h3><p>Sometimes you want to store on your document some details that are set when the document is created but are not updated. For example, a Creation Date or an Owner ID. The above would seem to make this problematic, since creation and editing of the document are the same command now. Once again, Mongo makes this easy for us to solve, using the “$setOnInsert” command. This is identical to the “$set” command, but only if the document was being created anew. If it already existed then it gets ignored. As such, we can do the following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; db.test.update(&#123;&quot;_id&quot;: &quot;123456&quot;&#125;, &#123;&quot;$set&quot;: &#123;&quot;name&quot;: &quot;Test&quot;, &quot;description&quot;: &quot;Updated&quot;, &quot;modified&quot;: new Date()&#125;, &quot;$setOnInsert&quot;: &#123;&quot;created&quot;: new Date()&#125;, &quot;$inc&quot;: &#123;&quot;version&quot;: 1&#125;&#125;, &#123;&quot;upsert&quot;: true&#125;);</div><div class="line">WriteResult(&#123; &quot;nMatched&quot; : 0, &quot;nUpserted&quot; : 1, &quot;nModified&quot; : 0, &quot;_id&quot; : &quot;123456&quot; &#125;)</div><div class="line">&gt; db.test.find(&#123;&quot;_id&quot;: &quot;123456&quot;&#125;);</div><div class="line">&#123; &quot;_id&quot; : &quot;123456&quot;, &quot;name&quot; : &quot;Test&quot;, &quot;description&quot; : &quot;Updated&quot;, &quot;modified&quot; : ISODate(&quot;2015-07-18T11:16:55.818Z&quot;), &quot;created&quot; : ISODate(&quot;2015-07-18T11:16:55.818Z&quot;), &quot;version&quot; : 1 &#125;</div></pre></td></tr></table></figure>
+<p>Which will create a brand new document, setting the modified and created dates to the current date and time. If we then do the following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; db.test.update(&#123;&quot;_id&quot;: &quot;123456&quot;, &quot;version&quot;: 1&#125;, &#123;&quot;$set&quot;: &#123;&quot;name&quot;: &quot;Test&quot;, &quot;description&quot;: &quot;Updated&quot;, &quot;modified&quot;: new Date()&#125;, &quot;$setOnInsert&quot;: &#123;&quot;created&quot;: new Date()&#125;, &quot;$inc&quot;: &#123;&quot;version&quot;: 1&#125;&#125;, &#123;&quot;upsert&quot;: true&#125;);</div><div class="line">WriteResult(&#123; &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 &#125;)</div><div class="line">&gt; db.test.find(&#123;&quot;_id&quot;: &quot;123456&quot;&#125;);</div><div class="line">&#123; &quot;_id&quot; : &quot;123456&quot;, &quot;name&quot; : &quot;Test&quot;, &quot;description&quot; : &quot;Updated&quot;, &quot;modified&quot; : ISODate(&quot;2015-07-18T11:17:15.732Z&quot;), &quot;created&quot; : ISODate(&quot;2015-07-18T11:16:55.818Z&quot;), &quot;version&quot; : 2 &#125;</div></pre></td></tr></table></figure>
+<p>You’ll notice that the modiified date has changed but that the created date hasn’t. Again, one command for Create and Update and it just does The Right Thing.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>All in all, MongoDB makes it possible to harmonise Create and Edit of records in a single statement, with virtually no risk of it doing the wrong thing. It may not be the right way to handle every data set, but I suspect it will work well enough for most.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sazzer.github.io/blog/blog/2015/07/18/Optimistic-Locking-in-MongoDB/" data-id="cisn813wc000l6lg54up2l6hu" class="article-share-link">Share</a>
+      
+        <a href="https://sazzer.github.io/blog/blog/2015/07/18/Optimistic-Locking-in-MongoDB/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/mongodb/">mongodb</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/2015/08/18/Starting-a-NodeJS-Project/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Starting a NodeJS Project - Project Setup
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/2015/06/13/Deploying-your-Maven-Site-to-S3-using-Travis/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Deploying your Maven Site to S3 using Travis</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/09/03/OpenID-Connect-Response-Types/" class="title">OpenID Connect Response Types</a></p>
+              <p class="item-date"><time datetime="2016-09-03T12:40:28.000Z" itemprop="datePublished">2016-09-03</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/29/TDD-with-Static-Typed-Languages/" class="title">TDD with Static Typed Languages</a></p>
+              <p class="item-date"><time datetime="2016-05-29T14:12:50.000Z" itemprop="datePublished">2016-05-29</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/08/I-disagree-with-HATEOAS/" class="title">I disagree with HATEOAS</a></p>
+              <p class="item-date"><time datetime="2016-05-08T10:22:01.000Z" itemprop="datePublished">2016-05-08</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/07/Designing-a-GraphQL-API/" class="title">Designing a GraphQL API</a></p>
+              <p class="item-date"><time datetime="2016-05-07T09:09:59.000Z" itemprop="datePublished">2016-05-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/06/I-don-t-like-Relay/" class="title">I don&#39;t like Relay</a></p>
+              <p class="item-date"><time datetime="2016-05-06T17:48:49.000Z" itemprop="datePublished">2016-05-06</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/blog/">blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/buildsystems/">buildsystems</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/programming/">programming</a><span class="category-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/HATEOAS/" style="font-size: 10px;">HATEOAS</a> <a href="/blog/tags/REST/" style="font-size: 10px;">REST</a> <a href="/blog/tags/TDD/" style="font-size: 10px;">TDD</a> <a href="/blog/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/blog/tags/api/" style="font-size: 20px;">api</a> <a href="/blog/tags/cors/" style="font-size: 10px;">cors</a> <a href="/blog/tags/es5/" style="font-size: 10px;">es5</a> <a href="/blog/tags/es6/" style="font-size: 15px;">es6</a> <a href="/blog/tags/github/" style="font-size: 10px;">github</a> <a href="/blog/tags/graphql/" style="font-size: 17.5px;">graphql</a> <a href="/blog/tags/grunt/" style="font-size: 15px;">grunt</a> <a href="/blog/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/blog/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/blog/tags/mocha/" style="font-size: 10px;">mocha</a> <a href="/blog/tags/mockery/" style="font-size: 10px;">mockery</a> <a href="/blog/tags/mocks/" style="font-size: 10px;">mocks</a> <a href="/blog/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/blog/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/blog/tags/oauth2/" style="font-size: 10px;">oauth2</a> <a href="/blog/tags/oidc/" style="font-size: 10px;">oidc</a> <a href="/blog/tags/openid/" style="font-size: 10px;">openid</a> <a href="/blog/tags/openid-connect/" style="font-size: 10px;">openid connect</a> <a href="/blog/tags/rant/" style="font-size: 10px;">rant</a> <a href="/blog/tags/relay/" style="font-size: 15px;">relay</a> <a href="/blog/tags/s3/" style="font-size: 10px;">s3</a> <a href="/blog/tags/testing/" style="font-size: 15px;">testing</a> <a href="/blog/tags/travisci/" style="font-size: 12.5px;">travisci</a> <a href="/blog/tags/webdev/" style="font-size: 10px;">webdev</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/05/">May 2015</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Graham Cox<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'thewronglanguage';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+  </div>
+</body>
+</html>

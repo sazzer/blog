@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Starting a NodeJS Project - Project Setup | The Wrong Language</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Whenever I start a new project using NodeJS, there are several things that I always do first. I thought that I’d finally get around to writing up what these things are, so that I can reference it myse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Starting a NodeJS Project - Project Setup">
+<meta property="og:url" content="https://sazzer.github.io/blog/2015/08/18/Starting-a-NodeJS-Project/index.html">
+<meta property="og:site_name" content="The Wrong Language">
+<meta property="og:description" content="Whenever I start a new project using NodeJS, there are several things that I always do first. I thought that I’d finally get around to writing up what these things are, so that I can reference it myse">
+<meta property="og:updated_time" content="2016-09-03T13:23:59.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Starting a NodeJS Project - Project Setup">
+<meta name="twitter:description" content="Whenever I start a new project using NodeJS, there are several things that I always do first. I thought that I’d finally get around to writing up what these things are, so that I can reference it myse">
+<meta name="twitter:creator" content="@https://twitter.com/grahamcox82">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href='//fonts.useso.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/blog/css/style.css">
+  <link rel="stylesheet" href="/blog/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-62627767-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/blog/" id="logo"><i class="logo"></i><span class="site-title">The Wrong Language</span></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="/blog/avatar.png"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/blog/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/blog/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="https://sazzer.github.io/blog"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="/blog/avatar.png">
+      <h2 id="name">Graham Cox</h2>
+      <h3 id="title">Software Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Sheffield, England</span>
+      <a id="follow" href="https://twitter.com/grahamcox82">FOLLOW</a>
+  	</div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        18
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        28
+        <span>tags</span>
+      </div>
+    </div>
+    
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/sazzer" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="https://twitter.com/grahamcox82" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="/blog/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+</aside>
+      <section id="main"><article id="post-Starting-a-NodeJS-Project" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Starting a NodeJS Project - Project Setup
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/blog/2015/08/18/Starting-a-NodeJS-Project/">
+    <time datetime="2015-08-18T17:21:08.000Z" itemprop="datePublished">2015-08-18</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/blog/categories/buildsystems/">buildsystems</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Whenever I start a new project using NodeJS, there are several things that I always do first. I thought that I’d finally get around to writing up what these things are, so that I can reference it myself, and in case anyone else might be interested. This covers part one of this writeup, setting up a base Node project, and adding Grunt in to it so that we can use Grunt as a task runner for more complicated builds. Next post will cover setting up the build so that we can write our code in ES6 instead, and later we will look at setting up some static analysis to keep code quality highter.</p>
+<a id="more"></a>
+<h3 id="Setting-up-package-json-correctly"><a href="#Setting-up-package-json-correctly" class="headerlink" title="Setting up package.json correctly"></a>Setting up package.json correctly</h3><p>Node and NPM use a file called “package.json” to configure your project. This file covers a lot of details, including smongst other things the proejct dependencies and actions to perform. This is relatively simple to set up, but it’s important to do it correctly. My bog standard template for this is simply:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>: <span class="string">"template-node"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.1"</span>,</div><div class="line">  <span class="attr">"description"</span>: <span class="string">""</span>,</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"engines"</span>: &#123;</div><div class="line">    <span class="attr">"node"</span>: <span class="string">"&gt;=0.12"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"repository"</span>: &#123;</div><div class="line">    <span class="attr">"type"</span>: <span class="string">"git"</span>,</div><div class="line">    <span class="attr">"url"</span>: <span class="string">"https://github.com/sazzer/template-node.git"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"author"</span>: <span class="string">"Graham Cox &lt;graham@grahamcox.co.uk&gt;"</span>,</div><div class="line">  <span class="attr">"bugs"</span>: &#123;</div><div class="line">    <span class="attr">"url"</span>: <span class="string">"https://github.com/sazzer/template-node/issues"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"dependencies"</span>: &#123;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"devDependencies"</span>: &#123;</div><div class="line">  </div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>This sets up the project with:</p>
+<ul>
+<li>A correct name, description and version number</li>
+<li>A minimum requirement for the NodeJS version to use</li>
+<li>Links to the Source Repository for the project</li>
+<li>Links to the bug tracker for the project</li>
+<li>Details of the author</li>
+</ul>
+<p>At the very least, this works. It’s nothing fancy, but it works.</p>
+<h3 id="Adding-Grunt-into-the-mix"><a href="#Adding-Grunt-into-the-mix" class="headerlink" title="Adding Grunt into the mix"></a>Adding Grunt into the mix</h3><p>NPM has support for running certain lifecycle actions, but not many of them and not in a complicated manner. If you want to do anything more complicated then the choices are normally either Grunt or Gulp. Personally I’m a fan of Grunt - it’s a system that you describe What to do, as opposed to How to do it - and so that’s what I always use.</p>
+<h4 id="Installing-Grunt"><a href="#Installing-Grunt" class="headerlink" title="Installing Grunt"></a>Installing Grunt</h4><p>Adding Grunt is easy. You need a bunch of dependencies, a Gruntfile, and a few entries in your package.json file to tell NPM to run Grunt for some of it’s lifecycle scripts. At a minimum the dependencies that I always use are:</p>
+<ul>
+<li>grunt-cli</li>
+<li>jit-grunt</li>
+<li>time-grunt</li>
+</ul>
+<p>These are all Development Dependencies, so can be added by doing:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install --save-dev grunt-cli jit-grunt time-grunt</div></pre></td></tr></table></figure></p>
+<p>jit-grunt is a plugin that will automatically load Grunt plugins based solely on them being configured, which just makes the configuration file a bit cleaner to read. time-grunt is a plugin that will tell you at the end how long each step took so that you can see where all of the time is going. I use that purely because I find it interesting, but if you find that the build is too slow then it lets you work out where to optimise it.</p>
+<h4 id="Configuring-Grunt"><a href="#Configuring-Grunt" class="headerlink" title="Configuring Grunt"></a>Configuring Grunt</h4><p>Grunt is configured by providing a Javascript file called “GruntFile.js”. The main goal of this file is to specify the configuration of all of the plugins that you want to use, and to set up the tasks that you want to run. </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">grunt</span>) </span>&#123;</div><div class="line">    <span class="built_in">require</span>(<span class="string">'jit-grunt'</span>)(grunt, &#123;</div><div class="line">    &#125;);</div><div class="line">    <span class="built_in">require</span>(<span class="string">'time-grunt'</span>)(grunt);</div><div class="line"></div><div class="line">    grunt.initConfig(&#123;</div><div class="line">        pkg: grunt.file.readJSON(<span class="string">'package.json'</span>)</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    grunt.registerTask(<span class="string">'build'</span>, []);</div><div class="line">    grunt.registerTask(<span class="string">'run'</span>, [<span class="string">'build'</span>]);</div><div class="line">    grunt.registerTask(<span class="string">'test'</span>, [<span class="string">'build'</span>]);</div><div class="line"></div><div class="line">    grunt.registerTask(<span class="string">'default'</span>, [<span class="string">'test'</span>]);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>This sets up no plugins - because we don’t have any yet - and set up four tasks. The “default” task is the one that’s run when you don’t specify a task to run, and the other three are going to be called from NPM in a second.</p>
+<p>Assuming that you’ve got the Grunt command-line tool installed globally - if not then do so now by running:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -G grunt-cli</div></pre></td></tr></table></figure></p>
+<p>then you can test these out by running the tasks from the command line:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ grunt <span class="built_in">test</span></div><div class="line"></div><div class="line">Done, without errors.</div><div class="line"></div><div class="line"></div><div class="line">Execution Time (2015-08-18 21:08:57 UTC)</div><div class="line">loading tasks  109ms  ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 100%</div><div class="line">Total 109ms</div></pre></td></tr></table></figure></p>
+<h4 id="Calling-Grunt-from-NPM"><a href="#Calling-Grunt-from-NPM" class="headerlink" title="Calling Grunt from NPM"></a>Calling Grunt from NPM</h4><p>Once we’re happy that Grunt is set up and working correctly, we can add the configuration to NPM to run the tasks automatically. I do this by adding the following into the package.json file:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">"scripts": &#123;</div><div class="line">  "install": "grunt",</div><div class="line">  "test": "grunt test",</div><div class="line">  "start": "grunt run"</div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<p>This means that the default Grunt task will run when you do an “npm install”, and separately to that you can run “npm test” or “npm start” to run “grunt test” and “grunt run” respectively”</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://sazzer.github.io/blog/blog/2015/08/18/Starting-a-NodeJS-Project/" data-id="cisn813wq00106lg5t4j6a9aq" class="article-share-link">Share</a>
+      
+        <a href="https://sazzer.github.io/blog/blog/2015/08/18/Starting-a-NodeJS-Project/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/grunt/">grunt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/nodejs/">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/2015/08/19/Starting-a-NodeJS-Project-ES6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Starting a NodeJS Project - ES6
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/2015/07/18/Optimistic-Locking-in-MongoDB/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Optimistic Locking in MongoDB</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recents</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/09/03/OpenID-Connect-Response-Types/" class="title">OpenID Connect Response Types</a></p>
+              <p class="item-date"><time datetime="2016-09-03T12:40:28.000Z" itemprop="datePublished">2016-09-03</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/29/TDD-with-Static-Typed-Languages/" class="title">TDD with Static Typed Languages</a></p>
+              <p class="item-date"><time datetime="2016-05-29T14:12:50.000Z" itemprop="datePublished">2016-05-29</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/08/I-disagree-with-HATEOAS/" class="title">I disagree with HATEOAS</a></p>
+              <p class="item-date"><time datetime="2016-05-08T10:22:01.000Z" itemprop="datePublished">2016-05-08</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/07/Designing-a-GraphQL-API/" class="title">Designing a GraphQL API</a></p>
+              <p class="item-date"><time datetime="2016-05-07T09:09:59.000Z" itemprop="datePublished">2016-05-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/blog/categories/programming/">programming</a></p>
+              <p class="item-title"><a href="/blog/2016/05/06/I-don-t-like-Relay/" class="title">I don&#39;t like Relay</a></p>
+              <p class="item-date"><time datetime="2016-05-06T17:48:49.000Z" itemprop="datePublished">2016-05-06</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/blog/">blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/buildsystems/">buildsystems</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/programming/">programming</a><span class="category-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">tag cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/HATEOAS/" style="font-size: 10px;">HATEOAS</a> <a href="/blog/tags/REST/" style="font-size: 10px;">REST</a> <a href="/blog/tags/TDD/" style="font-size: 10px;">TDD</a> <a href="/blog/tags/ajax/" style="font-size: 10px;">ajax</a> <a href="/blog/tags/api/" style="font-size: 20px;">api</a> <a href="/blog/tags/cors/" style="font-size: 10px;">cors</a> <a href="/blog/tags/es5/" style="font-size: 10px;">es5</a> <a href="/blog/tags/es6/" style="font-size: 15px;">es6</a> <a href="/blog/tags/github/" style="font-size: 10px;">github</a> <a href="/blog/tags/graphql/" style="font-size: 17.5px;">graphql</a> <a href="/blog/tags/grunt/" style="font-size: 15px;">grunt</a> <a href="/blog/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/blog/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/blog/tags/mocha/" style="font-size: 10px;">mocha</a> <a href="/blog/tags/mockery/" style="font-size: 10px;">mockery</a> <a href="/blog/tags/mocks/" style="font-size: 10px;">mocks</a> <a href="/blog/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/blog/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/blog/tags/oauth2/" style="font-size: 10px;">oauth2</a> <a href="/blog/tags/oidc/" style="font-size: 10px;">oidc</a> <a href="/blog/tags/openid/" style="font-size: 10px;">openid</a> <a href="/blog/tags/openid-connect/" style="font-size: 10px;">openid connect</a> <a href="/blog/tags/rant/" style="font-size: 10px;">rant</a> <a href="/blog/tags/relay/" style="font-size: 15px;">relay</a> <a href="/blog/tags/s3/" style="font-size: 10px;">s3</a> <a href="/blog/tags/testing/" style="font-size: 15px;">testing</a> <a href="/blog/tags/travisci/" style="font-size: 12.5px;">travisci</a> <a href="/blog/tags/webdev/" style="font-size: 10px;">webdev</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/05/">May 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/10/">October 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2015/05/">May 2015</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Graham Cox<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script>
+  var disqus_shortname = 'thewronglanguage';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+  </div>
+</body>
+</html>
